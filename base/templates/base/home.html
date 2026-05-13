@@ -72,19 +72,21 @@
         </header>
 
         <section class="hero" id="home">
-            <h1 class="color-changing-text large-title" data-en="School Management System" data-sw="Mfumo wa Kusimamia Shule">School Management System</h1>
-            <p data-en="Comprehensive platform for administrators, teachers, and parents to streamline school operations and communication" data-sw="Jukwaa la kisasa kwa wasimamizi, walimu na wazazi kurahisisha shughuli na mawasiliano ya shule">Comprehensive platform for administrators, teachers, and parents to streamline school operations and communication</p>
-            <div class="auth-buttons">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-teacher teacher-main-btn modern-btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <i class="fas fa-chalkboard-teacher"></i> Teacher
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="{% url 'accounts:teacher_login' %}">Login</a></li>
-                        <li><a class="dropdown-item" href="{% url 'accounts:teacher_register' %}">Register</a></li>
-                    </ul>
+            <div class="hero-content">
+                <h1 class="color-changing-text large-title" data-en="School Management System" data-sw="Mfumo wa Kusimamia Shule">School Management System</h1>
+                <p class="hero-subtitle" data-en="Comprehensive platform for administrators, teachers, and parents to streamline school operations and communication" data-sw="Jukwaa la kisasa kwa wasimamizi, walimu na wazazi kurahisisha shughuli na mawasiliano ya shule">Comprehensive platform for administrators, teachers, and parents to streamline school operations and communication</p>
+                <div class="auth-buttons">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary-custom teacher-main-btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-chalkboard-teacher me-2"></i> Teacher Portal
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="{% url 'accounts:teacher_login' %}"><i class="fas fa-sign-in-alt me-2"></i>Login</a></li>
+                            <li><a class="dropdown-item" href="{% url 'accounts:teacher_register' %}"><i class="fas fa-user-plus me-2"></i>Register</a></li>
+                        </ul>
+                    </div>
+                    <a href="{% url 'accounts:parent_login' %}" class="btn btn-secondary-custom"><i class="fas fa-user-friends me-2"></i> Parent Login</a>
                 </div>
-                <a href="{% url 'accounts:parent_login' %}" class="btn btn-parent modern-btn"><i class="fas fa-user-friends"></i> Parent Login</a>
             </div>
             <div class="bottom-language-switcher">
                 <span><i class="fas fa-globe"></i></span>
