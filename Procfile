@@ -1,0 +1,1 @@
+web: gunicorn SCHOOL_MANAGEMENT_STM.wsgi:application
