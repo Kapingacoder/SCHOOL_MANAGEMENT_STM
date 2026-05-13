@@ -90,7 +90,7 @@
             </div>
             <div class="bottom-language-switcher">
                 <span><i class="fas fa-globe"></i></span>
-                <select id="mobile-language-select">
+                <select id="mobile-language-select" aria-label="Language selection for website">
                     <option value="en">English</option>
                     <option value="sw">Swahili</option>
                 </select>
@@ -105,7 +105,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div id="login-error-message" class="alert alert-danger" style="display:none;"></div>
+                    <div id="login-error-message" class="alert alert-danger alert-login-hidden"></div>
                         <form id="teacher-login-form" method="post" action="{% url 'accounts:teacher_login' %}">
                             {% csrf_token %}
                             <div class="mb-3">
@@ -247,7 +247,7 @@
             <h2 data-en="About Our System" data-sw="Kuhusu Mfumo Wetu">About Our System</h2>
             <p data-en="The School Management System is designed to modernize educational administration, providing tools for efficient school management, transparent communication, and comprehensive student performance tracking." data-sw="Mfumo wa Kusimamia Shule umetengenezwa kuboresha usimamizi wa elimu, kutoa zana za usimamizi bora, mawasiliano wazi na ufuatiliaji wa maendeleo ya wanafunzi.">The School Management System is designed to modernize educational administration, providing tools for efficient school management, transparent communication, and comprehensive student performance tracking.</p>
             <p data-en="Our platform serves all stakeholders in the educational process while maintaining strict role-based access control." data-sw="Jukwaa letu linawahudumia wadau wote wa elimu huku likidhibiti upatikanaji kulingana na majukumu yao.">Our platform serves all stakeholders in the educational process while maintaining strict role-based access control.</p>
-            <div id="contact" style="margin-top: 3rem;">
+            <div id="contact" class="contact-section">
                 <h2 data-en="Contact Us" data-sw="Wasiliana Nasi">Contact Us</h2>
                 <p data-en="Have questions or need support? Reach out to our team:" data-sw="Una maswali au unahitaji msaada? Wasiliana na timu yetu:">Have questions or need support? Reach out to our team:</p>
                 <p><i class="fas fa-envelope"></i> gisbert@schoolsystem.edu</p>
@@ -259,9 +259,9 @@
             <h3>SchoolPro</h3>
             <p>Your all-in-one solution for school management. Streamlining communication and administration for a better learning environment.</p>
             <div class="footer-socials">
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#" title="Visit our Facebook page" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                <a href="#" title="Visit our Twitter page" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" title="Visit our Instagram page" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
             </div>
         </footer>
     </div>
