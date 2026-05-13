@@ -25,9 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-j1w6n17%viz5(=1&a($h*(r=4z!z0it@(t4%8nj3m@gy5il58$'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '5560a5aa1fc0.ngrok-free.app', '*']
+ALLOWED_HOSTS = ['school-management-stm.onrender.com']
 
 CSRF_TRUSTED_ORIGINS = ['https://5560a5aa1fc0.ngrok-free.app']
 
