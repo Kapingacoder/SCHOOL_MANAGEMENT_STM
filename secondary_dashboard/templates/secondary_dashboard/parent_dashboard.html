@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1 class="my-4">Parent Dashboard</h1>
+
+    {% block back_to_menu %}
+    <a href="{% url 'secondary_dashboard:dashboard' %}" class="btn btn-outline-primary mb-3"><i class="fas fa-arrow-left"></i> Back to Menu</a>
+    {% endblock %}
+
+    <!-- Existing content of the parent_dashboard.html -->
+
+</div>
+{% endblock %}

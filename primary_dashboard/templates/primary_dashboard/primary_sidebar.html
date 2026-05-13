@@ -1,0 +1,161 @@
+{% load primary_tags static %}
+<!-- The styles for this sidebar have been moved to static/base/primary_sidebar.css -->
+<link rel="stylesheet" href="{% static 'base/primary_sidebar.css' %}">
+
+<div class="modern-sidebar">
+    <!-- Sidebar Header -->
+    <div class="sidebar-header">
+        <h3>
+            <div class="school-icon">
+                <i class="fas fa-school"></i>
+            </div>
+            Primary School
+        </h3>
+    </div>
+
+    <!-- Navigation Menu -->
+    <div class="sidebar-nav">
+        <div class="nav-item">
+            <a href="{% url 'primary_dashboard:dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'dashboard' %}active{% endif %}">
+                <i class="fas fa-tachometer-alt nav-icon"></i>
+                Dashboard
+            </a>
+        </div>
+        <div class="nav-item">
+            <a href="{% url 'primary_dashboard:events_list' %}" class="nav-link {% if request.resolver_match.url_name == 'events_list' %}active{% endif %}">
+                <i class="fas fa-calendar-alt nav-icon"></i>
+                Events
+            </a>
+        </div>
+
+        <div class="nav-item">
+            <div class="nav-link submenu-toggle collapsed" data-bs-toggle="collapse" data-bs-target="#classesSubmenu" aria-expanded="false">
+                <i class="fas fa-school nav-icon"></i>
+                Classes
+            </div>
+            <div class="collapse submenu" id="classesSubmenu">
+                {% get_primary_classes as primary_classes %}
+                {% if primary_classes %}
+                    {% for class in primary_classes %}
+                        <a href="{% url 'primary_dashboard:class_detail' class.id %}" class="submenu-item">
+                            <i class="fas fa-chalkboard"></i>{{ class.name }}
+                        </a>
+                    {% endfor %}
+                {% else %}
+                    <div class="no-classes">
+                        <i class="fas fa-info-circle"></i>No classes available
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="nav-item">
+            <a href="{% url 'primary_dashboard:marks_select' %}" class="nav-link {% if 'marks' in request.path %}active{% endif %}">
+                <i class="fas fa-marker nav-icon"></i>
+                Marks
+            </a>
+        </div>
+
+        <div class="nav-item">
+            <a href="{% url 'primary_dashboard:report_select' %}" class="nav-link {% if 'report' in request.path %}active{% endif %}">
+                <i class="fas fa-file-alt nav-icon"></i>
+                Reports
+            </a>
+        </div>
+
+        <div class="nav-item">
+            <a href="{% url 'primary_dashboard:messages' %}" class="nav-link {% if 'messages' in request.path %}active{% endif %}">
+                <i class="fas fa-envelope nav-icon"></i>
+                Messages
+            </a>
+        </div>
+
+        <div class="nav-item">
+            <a href="{% url 'primary_dashboard:settings' %}" class="nav-link {% if 'settings' in request.path %}active{% endif %}">
+                <i class="fas fa-cog nav-icon"></i>
+                Settings
+            </a>
+        </div>
+    </div>
+
+    <!-- User Profile Section -->
+    <div class="sidebar-footer">
+        <div class="user-profile">
+            <img src="{% if request.user.teacher.profile_picture %}{{ request.user.teacher.profile_picture.url }}{% else %}https://via.placeholder.com/45x45/4f46e5/ffffff?text={{ request.user.first_name|slice:':1'|upper }}{% endif %}"
+                 alt="Profile" class="user-avatar">
+            <div class="user-info">
+                <div class="user-name">{{ request.user.get_full_name|default:request.user.username }}</div>
+                <div class="user-role">Teacher</div>
+            </div>
+        </div>
+
+        <div class="user-menu">
+            <button class="user-menu-toggle collapsed" data-bs-toggle="collapse" data-bs-target="#userDropdown" aria-expanded="false">
+                <span>Account</span>
+            </button>
+            <div class="collapse user-dropdown" id="userDropdown">
+                <a class="user-dropdown-item" href="{% url 'accounts:primary_dashboard_change_password' %}">
+                    <i class="fas fa-key me-2"></i>Change Password
+                </a>
+                <a class="user-dropdown-item" href="#">
+                    <i class="fas fa-user me-2"></i>Profile
+                </a>
+                <a class="user-dropdown-item" href="#">
+                    <i class="fas fa-cog me-2"></i>Settings
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="user-dropdown-item" href="{% url 'accounts:teacher_login' %}">
+                    <i class="fas fa-sign-out-alt me-2"></i>Sign out
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="p-3 border-top border-light">
+    <button class="btn btn-outline-light w-100" id="sidebar-action-btn" type="button">
+        <i class="fas fa-plus me-2"></i> New Action
+    </button>
+</div>
+
+<script>
+// Enhanced sidebar interactions
+document.addEventListener('DOMContentLoaded', function() {
+    // Smooth submenu animations
+    const submenuToggles = document.querySelectorAll('.submenu-toggle');
+    submenuToggles.forEach(toggle => {
+        toggle.addEventListener('click', function() {
+            const submenu = this.nextElementSibling;
+            if (submenu) {
+                submenu.classList.toggle('show');
+            }
+        });
+    });
+
+    // Active link highlighting
+    const currentPath = window.location.pathname;
+    const navLinks = document.querySelectorAll('.nav-link:not(.submenu-toggle)');
+    navLinks.forEach(link => {
+        if (link.getAttribute('href') === currentPath) {
+            link.classList.add('active');
+        }
+    });
+
+    // User dropdown toggle
+    const userToggle = document.querySelector('.user-menu-toggle');
+    if (userToggle) {
+        userToggle.addEventListener('click', function() {
+            this.classList.toggle('collapsed');
+        });
+    }
+
+    // Sidebar action button click handler
+    const actionBtn = document.getElementById('sidebar-action-btn');
+    if (actionBtn) {
+        actionBtn.addEventListener('click', function() {
+            alert('Sidebar action button clicked!');
+            // You can replace this alert with actual functionality
+        });
+    }
+});
+</script>

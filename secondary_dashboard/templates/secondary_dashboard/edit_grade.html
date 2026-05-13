@@ -1,0 +1,106 @@
+{% extends 'secondary_dashboard/base.html' %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="display-6">Update Grade Configuration</h1>
+        <p class="lead text-muted">Modify grading parameters for secondary school</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-dark-green text-white">
+                <h5 class="mb-0"><i class="fas fa-sliders-h me-2"></i>Grade Settings</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" class="needs-validation" novalidate>
+                    {% csrf_token %}
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-4 mb-3">
+                            <label for="{{ form.name.id_for_label }}" class="form-label">Grade Name</label>
+                            {{ form.name }}
+                            <div class="invalid-feedback">
+                                Please provide a valid grade name.
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="{{ form.min_score.id_for_label }}" class="form-label">Minimum Score</label>
+                            {{ form.min_score }}
+                            <div class="invalid-feedback">
+                                Minimum score must be between 0-100.
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="{{ form.max_score.id_for_label }}" class="form-label">Maximum Score</label>
+                            {{ form.max_score }}
+                            <div class="invalid-feedback">
+                                Maximum score must be between 0-100.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.points.id_for_label }}" class="form-label">Grade Points</label>
+                            {{ form.points }}
+                            <small class="text-muted">Used for GPA calculation</small>
+                            <div class="invalid-feedback">
+                                Please enter valid grade points.
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.remarks.id_for_label }}" class="form-label">Remarks</label>
+                            {{ form.remarks }}
+                            <div class="invalid-feedback">
+                                Please provide remarks for this grade.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        <a href="{% url 'secondary_dashboard:settings' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-times me-2"></i> Cancel
+                        </a>
+                        <button type="submit" class="btn btn-dark-green">
+                            <i class="fas fa-save me-2"></i> Update Grade
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block back_to_menu %}
+<a href="{% url 'secondary_dashboard:dashboard' %}" class="btn btn-outline-primary mb-3"><i class="fas fa-arrow-left"></i> Back to Menu</a>
+{% endblock %}
+
+/* styles for this page are in static/base/edit_grade.css */
+{% load static %}
+<link rel="stylesheet" href="{% static 'base/edit_grade.css' %}">
+
+<script>
+// Form validation script
+(function() {
+    'use strict';
+    window.addEventListener('load', function() {
+        var forms = document.getElementsByClassName('needs-validation');
+        var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+})();
+</script>
+{% endblock %}

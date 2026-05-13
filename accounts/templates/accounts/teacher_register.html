@@ -1,0 +1,205 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block extra_head %}
+{# Load the CSS for the teacher registration page #}
+<link rel="stylesheet" href="{% static 'base/teacher_register.css' %}">
+{% endblock %}
+{% block title %}Teacher Registration{% endblock %}
+{% block content %}
+<nav class="navbar-custom">
+    <div class="navbar-content">
+        <a href="/" class="navbar-brand">Tanzania Teachers Portal</a>
+        <ul class="navbar-links">
+            <li><a href="/">Home</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="registration-container">
+    <div class="registration-header">
+        <h2>Teacher Registration</h2>
+        <p>Register to access the Tanzania Teachers Portal</p>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="post" class="registration-form" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Username and Email Row -->
+        <div class="form-row">
+            <div class="form-col">
+                <div class="form-group">
+                    <label for="{{ form.username.id_for_label }}">Username</label>
+                    {{ form.username }}
+                    {% if form.username.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.username.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <span class="helptext">150 characters or fewer. Letters, digits and @/./+/-/_ only.</span>
+                </div>
+            </div>
+            <div class="form-col">
+                <div class="form-group">
+                    <label for="{{ form.email.id_for_label }}">Email</label>
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.email.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Name Row -->
+        <div class="form-row">
+            <div class="form-col">
+                <div class="form-group">
+                    <label for="{{ form.first_name.id_for_label }}">First Name</label>
+                    {{ form.first_name }}
+                    {% if form.first_name.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.first_name.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="form-col">
+                <div class="form-group">
+                    <label for="{{ form.last_name.id_for_label }}">Last Name</label>
+                    {{ form.last_name }}
+                    {% if form.last_name.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.last_name.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- TSC Number and Phone Row -->
+        <div class="form-row">
+            <div class="form-col">
+                <div class="form-group">
+                    <label for="{{ form.tsc_number.id_for_label }}">TSC Number</label>
+                    {{ form.tsc_number }}
+                    {% if form.tsc_number.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.tsc_number.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="form-col">
+                <div class="form-group">
+                    <label for="{{ form.phone_number.id_for_label }}">Phone Number</label>
+                    {{ form.phone_number }}
+                    {% if form.phone_number.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.phone_number.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    <span class="helptext">Format: +255xxxxxxxxx</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Password Row -->
+        <div class="form-row">
+            <div class="form-col">
+                <div class="form-group">
+                    <label for="{{ form.password1.id_for_label }}">Password</label>
+                    {{ form.password1 }}
+                    {% if form.password1.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.password1.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="form-col">
+                <div class="form-group">
+                    <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
+                    {{ form.password2 }}
+                    {% if form.password2.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.password2.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Profile Picture Row -->
+        <div class="form-row">
+            <div class="form-col">
+                <div class="form-group">
+                    <label for="{{ form.profile_picture.id_for_label }}">Profile Picture (Optional)</label>
+                    {{ form.profile_picture }}
+                    {% if form.profile_picture.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.profile_picture.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="form-col">
+                <!-- Empty column for spacing -->
+            </div>
+        </div>
+
+        <button type="submit" class="btn-register">Register as Teacher</button>
+    </form>
+    <div class="registration-footer">
+        <p>Tanzania Ministry of Education © {% now "Y" %}</p>
+    </div>
+</div>
+
+<script>
+    // Client-side password validation
+    document.addEventListener('DOMContentLoaded', function() {
+        var form = document.querySelector('.registration-form');
+        if (form) {
+            form.addEventListener('submit', function(event) {
+                var password = document.getElementById('id_password1').value;
+                var confirmPassword = document.getElementById('id_password2').value;
+                if (password !== confirmPassword) {
+                    event.preventDefault();
+                    alert('Passwords do not match. Please correct and try again.');
+                }
+            });
+        }
+        // Enhance date input fields
+        var dateInputs = document.querySelectorAll('input[type="date"]');
+        dateInputs.forEach(function(input) {
+            if (!input.value) {
+                input.setAttribute('placeholder', 'YYYY-MM-DD');
+            }
+        });
+    });
+</script>
+{% endblock %}

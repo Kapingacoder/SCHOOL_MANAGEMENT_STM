@@ -1,0 +1,21 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<div class="container py-4">
+    <h2 class="mb-4 text-center">Matukio ya Shule</h2>
+    <div class="row justify-content-center">
+        {% for event in events %}
+        <div class="col-md-8 mb-4">
+            <div class="card border-info shadow-lg">
+                <div class="card-body">
+                    <h4 class="card-title text-info">{{ event.title }}</h4>
+                    <p class="card-text">{{ event.description }}</p>
+                    <span class="badge bg-info">{{ event.date }}</span>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center">Hakuna matukio yaliyopangwa kwa sasa.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

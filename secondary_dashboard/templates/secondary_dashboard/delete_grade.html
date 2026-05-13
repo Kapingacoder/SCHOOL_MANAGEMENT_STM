@@ -1,0 +1,50 @@
+{% extends 'secondary_dashboard/base.html' %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="display-6">Delete Grade</h1>
+        <p class="lead text-muted">Confirm removal of grade record</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-dark-green text-white">
+                <h5 class="mb-0"><i class="fas fa-exclamation-triangle me-2"></i>Confirm Grade Deletion</h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning">
+                    <strong>Warning:</strong> You are about to permanently delete the grade "{{ grade.name }}". This action cannot be undone.
+                </div>
+                
+                <div class="mb-3 p-3 bg-light rounded">
+                    <h6>Grade Details:</h6>
+                    <ul class="mb-0">
+                        <li>Grade Name: {{ grade.name }}</li>
+                        <li>Minimum Score: {{ grade.min_score }}</li>
+                        <li>Maximum Score: {{ grade.max_score }}</li>
+                    </ul>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'secondary_dashboard:settings' %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-times me-2"></i>Cancel
+                        </a>
+                        <button type="submit" class="btn btn-danger">
+                            <i class="fas fa-trash-alt me-2"></i>Confirm Deletion
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block back_to_menu %}
+<a href="{% url 'secondary_dashboard:dashboard' %}" class="btn btn-outline-primary mb-3"><i class="fas fa-arrow-left"></i> Back to Menu</a>
+{% endblock %}
+{% endblock %}

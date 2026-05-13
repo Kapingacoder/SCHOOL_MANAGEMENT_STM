@@ -1,0 +1,68 @@
+{% extends 'secondary_dashboard/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="display-6">Remove Student Record</h1>
+        <p class="lead text-muted">Permanently delete student from the system</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-dark-red text-white">
+                <h5 class="mb-0"><i class="fas fa-user-times me-2"></i>Confirm Student Removal</h5>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-danger">
+                    <strong>Warning:</strong> This action will permanently delete all records for {{ student.first_name }} {{ student.last_name }} including:
+                    <ul class="mt-2 mb-0">
+                        <li>Academic performance records</li>
+                        <li>Attendance history</li>
+                        <li>Disciplinary records</li>
+                    </ul>
+                </div>
+                
+                <div class="mb-4 p-3 bg-light rounded">
+                    <h6>Student Details:</h6>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p><strong>Name:</strong> {{ student.first_name }} {{ student.middle_name|default:'' }} {{ student.last_name }}</p>
+                        </div>
+                        <div class="col-md-4">
+                            <p><strong>Student ID:</strong> {{ student.student_id }}</p>
+                        </div>
+                        <div class="col-md-4">
+                            <p><strong>Form:</strong> {{ student.student_class.get_name_display }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-between align-items-center">
+                        <a href="{% url 'secondary_dashboard:class_management' student.student_class.id %}" class="btn btn-outline-secondary">
+                            <i class="fas fa-arrow-left me-2"></i> Back to Class
+                        </a>
+                        <button type="submit" class="btn btn-dark-red">
+                            <i class="fas fa-trash-alt me-2"></i> Confirm Permanent Deletion
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block back_to_menu %}
+<a href="{% url 'secondary_dashboard:dashboard' %}" class="btn btn-outline-primary mb-3">
+    <i class="fas fa-arrow-left"></i> Back to Menu
+</a>
+{% endblock %}
+
+/* CSS for this page is in base/secondary_dashboard_delete_student.css */
+<link rel="stylesheet" href="{% static 'base/secondary_dashboard_delete_student.css' %}">
+
+{% endblock %}

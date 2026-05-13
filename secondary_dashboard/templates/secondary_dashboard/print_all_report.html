@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Print All Reports - {{ class_obj.get_name_display }} - {{ term }} {{ year }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            color: #495057;
+        }
+        .report-container {
+            page-break-after: always;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #6c757d;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .table th, .table td {
+            border: 1px solid #dee2e6;
+            padding: 8px;
+            text-align: left;
+        }
+        .table th {
+            background-color: #e9ecef;
+            color: #495057;
+        }
+        .table tfoot th {
+            background-color: #6c757d;
+            color: white;
+        }
+        h2 {
+            color: #6c757d;
+            border-bottom: 2px solid #6c757d;
+            padding-bottom: 5px;
+        }
+        p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    {% for report in reports_data %}
+    <div class="report-container">
+        {% if school_settings.logo %}
+            <img src="{{ school_settings.logo.url }}" alt="School Logo" style="max-height: 100px; display: block; margin-bottom: 20px;">
+        {% endif %}
+        <h2>Report for {{ report.student.first_name }} {{ report.student.last_name }}</h2>
+        <p><strong>Class:</strong> {{ class_obj.get_name_display }}</p>
+        <p><strong>Term:</strong> {{ term }}</p>
+        <p><strong>Year:</strong> {{ year }}</p>
+        
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for mark in report.marks %}
+                <tr>
+                    <td>{{ mark.subject.name }}</td>
+                    <td>{{ mark.score }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Total Score</th>
+                    <th>{{ report.total_score }}</th>
+                </tr>
+                <tr>
+                    <th>Average Score</th>
+                    <th>{{ report.average_score|floatformat:2 }}</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    {% endfor %}
+
+    {% block back_to_menu %}
+    <a href="{% url 'secondary_dashboard:dashboard' %}" class="btn btn-outline-primary mb-3"><i class="fas fa-arrow-left"></i> Back to Menu</a>
+    {% endblock %}
+</body>
+</html>

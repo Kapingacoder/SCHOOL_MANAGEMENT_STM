@@ -1,0 +1,65 @@
+{% extends 'base/base.html' %}
+{% load static %}
+{% block extra_head %}
+{# Load the CSS for the teacher login page #}
+<link rel="stylesheet" href="{% static 'base/teacher_login.css' %}">
+{% endblock %}
+{% block title %}Teacher Login{% endblock %}
+{% block content %}
+<nav class="navbar-custom">
+    <div class="navbar-content">
+        <a href="/" class="navbar-brand">Tanzania Teachers Portal</a>
+        <ul class="navbar-links">
+            <li><a href="/">Home</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="login-container">
+    <div class="login-header">
+        <h2>Teacher Login</h2>
+        <p>Login to access the Tanzania Teachers Portal</p>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            Invalid username or password. Please try again.
+        </div>
+    {% endif %}
+
+    <form method="post" class="login-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="school_level">School Level</label>
+            <select name="school_level" id="school_level" class="form-control" required>
+                <option value="">-- Select Level --</option>
+                <option value="primary" {% if initial_data.school_level == 'primary' %}selected{% endif %}>Primary School</option>
+                <option value="secondary" {% if initial_data.school_level == 'secondary' %}selected{% endif %}>Secondary School</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username" class="form-control" value="{{ initial_data.username|default:'' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password" class="form-control" value="{{ initial_data.password|default:'' }}" required>
+        </div>
+        <div class="form-group">
+            <a href="{% url 'accounts:password_reset' %}" class="forgot-password-link">Forgot Password?</a>
+        </div>
+        <button type="submit" class="btn-login">Login</button>
+    </form>
+    <div class="login-footer">
+        <p>Tanzania Ministry of Education © {% now "Y" %}</p>
+    </div>
+</div>
+
+<!-- CSS for this page is in base/teacher_login.css -->
+{% endblock %}

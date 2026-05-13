@@ -1,0 +1,15 @@
+
+.bg-dark-red {
+    background-color: #8B0000;
+    border-color: #8B0000;
+}
+.btn-dark-red {
+    background-color: #8B0000;
+    border-color: #8B0000;
+    color: white;
+}
+.btn-dark-red:hover {
+    background-color: #6B0000;
+    border-color: #6B0000;
+    color: white;
+}

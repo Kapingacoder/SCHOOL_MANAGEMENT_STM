@@ -1,0 +1,62 @@
+{% extends 'primary_dashboard/base.html' %}
+
+{% block title %}Send Messages{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Send a Message to a Parent</h2>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4>Compose Message</h4>
+        </div>
+        <div class="card-body">
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="{{ form.recipient.id_for_label }}" class="form-label">{{ form.recipient.label }}</label>
+                    {{ form.recipient }}
+                </div>
+                <div class="mb-3">
+                    <label for="{{ form.subject.id_for_label }}" class="form-label">{{ form.subject.label }}</label>
+                    {{ form.subject }}
+                </div>
+                <div class="mb-3">
+                    <label for="{{ form.message.id_for_label }}" class="form-label">{{ form.message.label }}</label>
+                    {{ form.message }}
+                </div>
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h4>Previously Sent Messages</h4>
+        </div>
+        <div class="card-body">
+            <ul class="list-group">
+                {% for message in sent_messages %}
+                    <li class="list-group-item">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <p><strong>To:</strong> {{ message.recipient.first_name }} {{ message.recipient.last_name }}</p>
+                                {% if message.subject %}
+                                <p><strong>Subject:</strong> {{ message.subject }}</p>
+                                {% endif %}
+                                <p><strong>Message:</strong> {{ message.message }}</p>
+                                <small class="text-muted">Sent on: {{ message.timestamp|date:"d M Y, H:i" }}</small>
+                            </div>
+                            <div>
+                                <span class="badge bg-success">Delivered</span>
+                            </div>
+                        </div>
+                    </li>
+                {% empty %}
+                    <li class="list-group-item">You have not sent any messages yet.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

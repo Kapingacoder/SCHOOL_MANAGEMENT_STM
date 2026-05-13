@@ -1,0 +1,194 @@
+<div class="reports-container" style="display: none;">
+    <div class="section-header">
+        <h2>Academic Reports</h2>
+        <div class="header-actions">
+            <div class="dropdown">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="termDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ term|default:"Select Term" }} {{ year|default:"" }}
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="termDropdown">
+                    <li><a class="dropdown-item" href="#" data-term="Term 1">Term 1 {{ year|default:"" }}</a></li>
+                    <li><a class="dropdown-item" href="#" data-term="Term 2">Term 2 {{ year|default:"" }}</a></li>
+                    <li><a class="dropdown-item" href="#" data-term="Term 3">Term 3 {{ year|default:"" }}</a></li>
+                </ul>
+            </div>
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="reportsSearch" placeholder="Search reports...">
+            </div>
+        </div>
+    </div>
+
+    {% if children_reports %}
+    <div class="reports-accordion" id="reportsAccordion">
+        {% for report in children_reports %}
+        <div class="report-card" data-child-id="{{ report.child.id }}">
+            <div class="report-header" id="reportHeading{{ forloop.counter }}">
+                <div class="report-student">
+                    <div class="student-avatar">
+                        {{ report.child.first_name|slice:":1" }}{{ report.child.last_name|slice:":1" }}
+                    </div>
+                    <div>
+                        <h5 class="mb-0">{{ report.child.get_full_name }}</h5>
+                        <small class="text-muted">
+                            {{ report.school_type|title }} School
+                            {% if report.class_id %}
+                                • Class {{ report.class_id }}
+                            {% endif %}
+                        </small>
+                    </div>
+                </div>
+                <button class="btn btn-link btn-sm" type="button" data-bs-toggle="collapse" 
+                        data-bs-target="#reportCollapse{{ forloop.counter }}" 
+                        aria-expanded="false" 
+                        aria-controls="reportCollapse{{ forloop.counter }}">
+                    View Details <i class="fas fa-chevron-down"></i>
+                </button>
+            </div>
+
+            <div id="reportCollapse{{ forloop.counter }}" class="collapse" 
+                 aria-labelledby="reportHeading{{ forloop.counter }}" 
+                 data-bs-parent="#reportsAccordion">
+                <div class="report-body">
+                    {% if report.report %}
+                    <div class="report-summary">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="summary-card">
+                                    <h6>Overall Performance</h6>
+                                    <div class="performance-metrics">
+                                        <div class="metric">
+                                            <span class="metric-value">{{ report.report.average_grade|default:"-" }}</span>
+                                            <span class="metric-label">Average Grade</span>
+                                        </div>
+                                        <div class="metric">
+                                            <span class="metric-value">{{ report.report.position_in_class|default:"-" }}</span>
+                                            <span class="metric-label">Class Position</span>
+                                        </div>
+                                        <div class="metric">
+                                            <span class="metric-value">{{ report.report.attendance_percentage|default:"-" }}%</span>
+                                            <span class="metric-label">Attendance</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="performance-chart">
+                                    <canvas id="performanceChart{{ forloop.counter }}" height="200"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% if report.marks %}
+                    <div class="marks-table-container">
+                        <h6>Subject-wise Performance</h6>
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Subject</th>
+                                        <th>Score</th>
+                                        <th>Grade</th>
+                                        <th>Comment</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for mark in report.marks %}
+                                    <tr>
+                                        <td>{{ mark.subject.name }}</td>
+                                        <td>{{ mark.score|default:"-" }}</td>
+                                        <td>{{ mark.grade|default:"-" }}</td>
+                                        <td>{{ mark.comments|default:"-"|truncatechars:30 }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info">
+                        No marks available for this term.
+                    </div>
+                    {% endif %}
+
+                    <div class="report-actions mt-3">
+                        <button class="btn btn-outline-primary btn-sm" onclick="window.print()">
+                            <i class="fas fa-print me-1"></i> Print Report
+                        </button>
+                        <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#shareReportModal">
+                            <i class="fas fa-share-alt me-1"></i> Share
+                        </button>
+                        <button class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#downloadReportModal">
+                            <i class="fas fa-download me-1"></i> Download PDF
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <i class="fas fa-chart-line"></i>
+        <h3>No Reports Available</h3>
+        <p>There are no academic reports available at the moment.</p>
+    </div>
+    {% endif %}
+</div>
+
+<!-- Share Report Modal -->
+<div class="modal fade" id="shareReportModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Share Report</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="shareEmail" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="shareEmail" placeholder="name@example.com">
+                </div>
+                <div class="mb-3">
+                    <label for="shareMessage" class="form-label">Message (optional)</label>
+                    <textarea class="form-control" id="shareMessage" rows="3">Check out this academic report.</textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Send Report</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Download Report Modal -->
+<div class="modal fade" id="downloadReportModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Download Report</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Select the format you want to download the report in:</p>
+                <div class="d-grid gap-2">
+                    <button class="btn btn-outline-primary text-start">
+                        <i class="far fa-file-pdf me-2"></i> Download as PDF
+                    </button>
+                    <button class="btn btn-outline-secondary text-start">
+                        <i class="far fa-file-excel me-2"></i> Download as Excel
+                    </button>
+                    <button class="btn btn-outline-dark text-start">
+                        <i class="far fa-file-alt me-2"></i> Download as Text
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

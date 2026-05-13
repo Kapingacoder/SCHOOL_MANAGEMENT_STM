@@ -1,0 +1,120 @@
+<div class="documents-container" style="display: none;">
+    <div class="section-header">
+        <h2>Documents</h2>
+        <div class="header-actions">
+            <div class="dropdown">
+                <button class="btn btn-outline-secondary dropdown-toggle" type="button" id="documentFilter" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-filter me-2"></i>Filter
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="documentFilter">
+                    <li><a class="dropdown-item active" href="#" data-filter="all">All Documents</a></li>
+                    <li><a class="dropdown-item" href="#" data-filter="report">Reports</a></li>
+                    <li><a class="dropdown-item" href="#" data-filter="syllabus">Syllabus</a></li>
+                    <li><a class="dropdown-item" href="#" data-filter="notice">Notices</a></li>
+                    <li><a class="dropdown-item" href="#" data-filter="other">Others</a></li>
+                </ul>
+            </div>
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="documentsSearch" placeholder="Search documents...">
+            </div>
+        </div>
+    </div>
+
+    <div class="documents-grid" id="documentsGrid">
+        {% if documents %}
+            {% for doc in documents %}
+            <div class="document-card" data-category="{{ doc.document_type|lower|default:'other' }}">
+                <div class="document-icon">
+                    <i class="fas fa-file-{{ doc.icon|default:'file-alt' }}"></i>
+                </div>
+                <div class="document-details">
+                    <h5 class="document-title">{{ doc.title }}</h5>
+                    <p class="document-description">{{ doc.description|truncatechars:100 }}</p>
+                    <div class="document-meta">
+                        <span class="badge bg-light text-dark">{{ doc.get_document_type_display|default:"Document" }}</span>
+                        <span class="text-muted">{{ doc.uploaded_at|timesince }} ago</span>
+                    </div>
+                </div>
+                <div class="document-actions">
+                    <a href="{{ doc.file.url }}" class="btn btn-sm btn-outline-primary" download>
+                        <i class="fas fa-download"></i>
+                    </a>
+                    <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#shareDocumentModal" data-doc-id="{{ doc.id }}">
+                        <i class="fas fa-share-alt"></i>
+                    </button>
+                    {% if doc.preview_available %}
+                    <button class="btn btn-sm btn-outline-info preview-document" data-url="{{ doc.file.url }}">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <div class="empty-state">
+                <i class="far fa-folder-open"></i>
+                <h3>No Documents Found</h3>
+                <p>There are no documents available at the moment.</p>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Document Preview Modal -->
+<div class="modal fade" id="documentPreviewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="documentPreviewTitle">Document Preview</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="documentPreviewContent">
+                <div class="text-center my-5">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <p class="mt-2">Loading document preview...</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="#" class="btn btn-primary" id="downloadPreviewDoc">
+                    <i class="fas fa-download me-2"></i>Download
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Share Document Modal -->
+<div class="modal fade" id="shareDocumentModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Share Document</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="mb-3">
+                    <label for="shareDocEmail" class="form-label">Email address</label>
+                    <input type="email" class="form-control" id="shareDocEmail" placeholder="name@example.com">
+                </div>
+                <div class="mb-3">
+                    <label for="shareDocMessage" class="form-label">Message (optional)</label>
+                    <textarea class="form-control" id="shareDocMessage" rows="3">Check out this document.</textarea>
+                </div>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="shareDocCopyMe" checked>
+                    <label class="form-check-label" for="shareDocCopyMe">
+                        Send me a copy
+                    </label>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="shareDocBtn">Send</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,30 @@
+{% extends 'primary_dashboard/base.html' %}
+{% load primary_tags %}
+
+{% block content %}
+<div class="container">
+    <h1>Select Class to Enter Marks</h1>
+    <form method="POST" action="{% url 'primary_dashboard:marks' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="class">Select Class:</label>
+            <select name="class" id="class" class="form-control">
+                {% for class in classes %}
+                    <option value="{{ class.id }}">{{ class.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+    
+    <h2>Enter Marks</h2>
+    <form method="POST" action="{% url 'primary_dashboard:save_marks' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="marks">Marks:</label>
+            <input type="number" name="marks" id="marks" class="form-control" min="0" max="100" required>
+        </div>
+        <button type="submit" class="btn btn-success">Save Marks</button>
+    </form>
+</div>
+{% endblock %}

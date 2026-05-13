@@ -1,0 +1,175 @@
+{% extends 'primary_dashboard/base.html' %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="display-6">School Settings</h1>
+        <p class="lead text-muted">Configure school-wide settings and parameters</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-cog me-2"></i>General Settings</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <input type="hidden" name="settings_submit" value="1">
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label">School Name</label>
+                            {{ settings_form.name }}
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Email</label>
+                            {{ settings_form.email }}
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Phone</label>
+                            {{ settings_form.phone }}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Address</label>
+                            {{ settings_form.address }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">School Motto</label>
+                            {{ settings_form.school_motto }}
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Logo</label>
+                            {{ settings_form.logo }}
+                            {% if settings_form.instance.logo %}
+                                <div class="mt-2">
+                                    <img src="{{ settings_form.instance.logo.url }}" alt="Current Logo" style="max-height:80px;">
+                                    <div class="text-muted small">Current logo</div>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>Save Settings
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-book me-2"></i>Subjects</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" class="mb-4">
+                    {% csrf_token %}
+                    <input type="hidden" name="subject_submit" value="1">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Subject Name</label>
+                            {{ subject_form.name }}
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Subject Code</label>
+                            {{ subject_form.code }}
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-plus me-2"></i>Add Subject
+                    </button>
+                </form>
+                
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Name</th>
+                                <th>Code</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for subject in subjects %}
+                            <tr>
+                                <td>{{ subject.name }}</td>
+                                <td>{{ subject.code }}</td>
+                                <td>
+                                    <a href="{% url 'primary_dashboard:edit_subject' subject.id %}" class="btn btn-sm btn-outline-primary">Edit</a>
+                                    <a href="{% url 'primary_dashboard:delete_subject' subject.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card h-100">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-star me-2"></i>Grading System</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" class="mb-4">
+                    {% csrf_token %}
+                    <input type="hidden" name="grade_submit" value="1">
+                    <div class="row mb-3">
+                        <div class="col-md-4">
+                            <label class="form-label">Grade Name</label>
+                            {{ grade_form.name }}
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Min Score</label>
+                            {{ grade_form.min_score }}
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Max Score</label>
+                            {{ grade_form.max_score }}
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-plus me-2"></i>Add Grade
+                    </button>
+                </form>
+                
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Grade</th>
+                                <th>Min Score</th>
+                                <th>Max Score</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for grade in grades %}
+                            <tr>
+                                <td>{{ grade.name }}</td>
+                                <td>{{ grade.min_score }}</td>
+                                <td>{{ grade.max_score }}</td>
+                                <td>
+                                    <a href="{% url 'primary_dashboard:edit_grade' grade.id %}" class="btn btn-sm btn-outline-primary">Edit</a>
+                                    <a href="{% url 'primary_dashboard:delete_grade' grade.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

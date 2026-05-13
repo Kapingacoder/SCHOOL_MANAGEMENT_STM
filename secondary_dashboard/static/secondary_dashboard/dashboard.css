@@ -1,0 +1,122 @@
+/* Beautiful and Attractive Secondary Dashboard Styles */
+.secondary-dashboard-container {
+    background: linear-gradient(135deg, #0a4ecb 0%, #165bbc 100%);
+    min-height: 100vh;
+    padding: 2rem 0;
+}
+.secondary-dashboard-header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+.secondary-dashboard-title {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #f05f10;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 8px rgba(44,62,80,0.08);
+}
+.secondary-dashboard-stats {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+}
+.stat-card {
+    background: #b50d23;
+    border-radius: 18px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+    padding: 2rem 2.5rem;
+    text-align: center;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+.stat-card:hover {
+    box-shadow: 0 6px 32px rgba(0,0,0,0.16);
+    transform: translateY(-4px) scale(1.03);
+}
+.stat-icon {
+    font-size: 2.5rem;
+    color: #ea2045;
+    margin-bottom: 0.5rem;
+}
+.stat-label {
+    font-size: 1.1rem;
+    color: #b00a0a;
+    margin-bottom: 0.25rem;
+}
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #007bff;
+}
+.secondary-dashboard-menu {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+.menu-card {
+    background: #cb0d33;
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(17, 3, 108, 0.08);
+    padding: 1.5rem 1.2rem;
+    text-align: center;
+    transition: box-shadow 0.2s, transform 0.2s;
+    cursor: pointer;
+}
+.menu-card:hover {
+    box-shadow: 0 6px 24px rgba(0,123,255,0.12);
+    transform: translateY(-4px) scale(1.04);
+    background: linear-gradient(135deg, #9e061f 0%, #b51233 100%);
+}
+.menu-icon {
+    font-size: 2.2rem;
+    color: #dcdc1b;
+    margin-bottom: 0.5rem;
+}
+.menu-label {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #c90b1e;
+}
+
+/* Default blue for card titles and icons */
+.card-title {
+    color: hsl(121, 93%, 43%) !important;
+}
+
+.card-body i {
+    color: #098b3f !important;
+}
+
+p, h1 {
+    color: hwb(98 6% 28%) !important;
+}
+
+/* 3D Icon Styles */
+.card-body i {
+    transition: all 0.3s ease;
+    text-shadow: 2px 2px 4px rgba(32, 242, 8, 0.3);
+    transform: perspective(500px) rotateX(0deg) rotateY(0deg);
+}
+
+.card:hover .card-body i {
+    transform: perspective(500px) rotateX(10deg) rotateY(10deg) scale(1.1);
+    text-shadow: 4px 4px 8px rgba(110, 206, 20, 0.5);
+    filter: drop-shadow(0 4px 8px rgba(134, 197, 7, 0.3));
+}
+
+.card-body i::before {
+    background: linear-gradient(135deg, lab(61.87% -61.53 60.48) 0%, hsl(146, 94%, 25%) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Hover styles for blue text and icons */
+.card:hover .card-body i {
+    color: hsl(230, 81%, 46%) !important;
+}
+
+.card:hover .card-title {
+    color: lab(30.83% 49.54 -79.4) !important;
+}

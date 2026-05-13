@@ -1,0 +1,180 @@
+{% extends 'secondary_dashboard/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="display-6">Update Student Record</h1>
+        <p class="lead text-muted">Edit details for {{ student.first_name }} {{ student.last_name }}</p>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-dark-green text-white">
+                <h5 class="mb-0"><i class="fas fa-user-edit me-2"></i>Student Information</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+                    {% csrf_token %}
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            {{ form.non_field_errors }}
+                        </div>
+                    {% endif %}
+
+                    <div class="row mb-4">
+                        <div class="col-md-4 mb-3">
+                            <label for="{{ form.first_name.id_for_label }}" class="form-label">First Name</label>
+                            {{ form.first_name }}
+                            {% if form.first_name.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.first_name.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="{{ form.middle_name.id_for_label }}" class="form-label">Middle Name</label>
+                            {{ form.middle_name }}
+                        </div>
+                        
+                        <div class="col-md-4 mb-3">
+                            <label for="{{ form.last_name.id_for_label }}" class="form-label">Last Name</label>
+                            {{ form.last_name }}
+                            {% if form.last_name.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.last_name.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.gender.id_for_label }}" class="form-label">Gender</label>
+                            {{ form.gender }}
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.date_of_birth.id_for_label }}" class="form-label">Date of Birth</label>
+                            {{ form.date_of_birth }}
+                            {% if form.date_of_birth.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.date_of_birth.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.current_class.id_for_label }}" class="form-label">Form Class</label>
+                            {{ form.current_class }}
+                        </div>
+                        
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.stream.id_for_label }}" class="form-label">Stream</label>
+                            {{ form.stream }}
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.parent.id_for_label }}" class="form-label">Parent/Guardian</label>
+                            {{ form.parent }}
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.medical_notes.id_for_label }}" class="form-label">Medical Notes</label>
+                            {{ form.medical_notes }}
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-4 mb-3">
+                            <label for="{{ form.parent_first_name.id_for_label }}" class="form-label">Parent's First Name</label>
+                            {{ form.parent_first_name }}
+                            {% if form.parent_first_name.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.parent_first_name.errors }}
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label for="{{ form.parent_middle_name.id_for_label }}" class="form-label">Parent's Middle Name</label>
+                            {{ form.parent_middle_name }}
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label for="{{ form.parent_last_name.id_for_label }}" class="form-label">Parent's Last Name</label>
+                            {{ form.parent_last_name }}
+                            <div class="invalid-feedback">
+                                Please provide a valid parent's last name.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.parent_phone.id_for_label }}" class="form-label">Parent's Phone Number</label>
+                            {{ form.parent_phone }}
+                            <div class="invalid-feedback">
+                                Please provide a valid phone number.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+                            <label for="{{ form.parent_email.id_for_label }}" class="form-label">Parent's Email</label>
+                            {{ form.parent_email }}
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between mt-4">
+                        {% if student.current_class %}
+                            <a href="{% url 'secondary_dashboard:class_management' student.current_class.id %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i> Back to Class
+                            </a>
+                        {% else %}
+                            <a href="{% url 'secondary_dashboard:dashboard' %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i> Back to Dashboard
+                            </a>
+                        {% endif %}
+                        <button type="submit" class="btn btn-dark-green">
+                            <i class="fas fa-save me-2"></i> Update Student
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CSS for this page is in base/secondary_dashboard_edit_student.css -->
+<link rel="stylesheet" href="{% static 'base/secondary_dashboard_edit_student.css' %}">
+
+<script>
+// Form validation script
+(function() {
+    'use strict';
+    window.addEventListener('load', function() {
+        var forms = document.getElementsByClassName('needs-validation');
+        var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+})();
+</script>
+{% endblock %}
+
+{% block back_to_menu %}
+<a href="{% url 'secondary_dashboard:dashboard' %}" class="btn btn-outline-primary mb-3"><i class="fas fa-arrow-left"></i> Back to Menu</a>
+{% endblock %}

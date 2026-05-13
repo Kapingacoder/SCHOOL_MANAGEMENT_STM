@@ -1,0 +1,59 @@
+{% extends 'secondary_dashboard/base.html' %}
+
+{% block content %}
+<div class="container-fluid h-100">
+    <div class="row h-100">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2>{{ title }}</h2>
+                <a href="{% url 'secondary_dashboard:past_papers' %}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left"></i> Back to Past Papers
+                </a>
+            </div>
+            
+            <div class="card shadow-sm h-75">
+                <div class="card-body p-0">
+                    <iframe 
+                        src="{{ url }}" 
+                        style="width: 100%; height: 100%; min-height: 70vh; border: none;"
+                        sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+                        title="{{ title }}">
+                    </iframe>
+                </div>
+            </div>
+            
+            <div class="alert alert-info mt-3">
+                <i class="fas fa-info-circle me-2"></i>
+                If the content doesn't load, you can 
+                <a href="{{ url }}" target="_blank" class="alert-link">open it in a new tab</a>.
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f9fa;
+}
+
+.container-fluid {
+    padding: 20px;
+}
+
+.card {
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.alert {
+    border-radius: 0.5rem;
+}
+
+.btn {
+    border-radius: 0.5rem;
+}
+</style>
+{% endblock %}

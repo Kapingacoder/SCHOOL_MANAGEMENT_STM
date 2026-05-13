@@ -1,0 +1,95 @@
+{% extends 'secondary_dashboard/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <a href="{% url 'secondary_dashboard:dashboard' %}" class="btn btn-secondary"><i class="fas fa-arrow-left me-2"></i>Back to Menu</a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-file-alt me-2"></i>Select Form for Report Generation</h5>
+            </div>
+            <div class="card-body">
+                <form method="get" action="" class="needs-validation" novalidate id="reportForm">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="classSelect" class="form-label">Form</label>
+                            <select name="class_id" id="classSelect" class="form-select" required>
+                                <option value="" selected disabled>-- Select Form --</option>
+                                {% for class in forms %}
+                                <option value="{{ class.id }}">{{ class.get_name_display }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="invalid-feedback">
+                                Please select a form to proceed
+                            </div>
+                        </div>
+                        <div class="col-md-6 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100"><i class="fas fa-file-pdf me-2"></i> Generate Reports</button>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-3">
+                        <div class="col-12">
+                            <div class="alert alert-info mt-3">
+                                <i class="fas fa-info-circle me-2"></i>
+                                <strong>Note:</strong> Select the appropriate form to generate student reports
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .bg-primary {
+        background-color: #0d6efd !important;
+        border-color: #0d6efd !important;
+    }
+    .btn-primary {
+        background-color: #0d6efd;
+        border-color: #0d6efd;
+    }
+    .btn-primary:hover {
+        background-color: #0b5ed7;
+        border-color: #0a58ca;
+    }
+</style>
+
+<script>
+(function() {
+    'use strict';
+    document.getElementById('reportForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        var classId = document.getElementById('classSelect').value;
+        if (classId) {
+            var url = "{% url 'secondary_dashboard:report_view' 0 %}".replace('0', classId);
+            window.location.href = url;
+        }
+    });
+})();
+
+// Form validation script
+(function() {
+    'use strict';
+    window.addEventListener('load', function() {
+        var forms = document.getElementsByClassName('needs-validation');
+        var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+            }, false);
+        });
+    }, false);
+})();
+</script>
+{% endblock %}

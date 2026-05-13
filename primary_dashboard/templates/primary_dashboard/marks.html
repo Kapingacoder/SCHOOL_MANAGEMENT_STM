@@ -1,0 +1,94 @@
+{% extends 'primary_dashboard/base.html' %}
+{% load primary_tags %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="display-6">{{ class_obj.get_name_display }} Marks</h1>
+        <p class="lead text-muted">Enter and manage student marks for {{ term }} {{ year }}</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-table me-2"></i>Marks Entry</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <thead class="table-light">
+                            <tr>
+                                <th rowspan="2">SN</th>
+                                <th rowspan="2">Student Name</th>
+                                {% for subject in subjects %}
+                                <th colspan="2" class="text-center">{{ subject.name }}</th>
+                                {% endfor %}
+                                <th rowspan="2">Average</th>
+                                <th rowspan="2">Grade</th>
+                            </tr>
+                            <tr>
+                                {% for subject in subjects %}
+                                <th>Score</th>
+                                <th>Grade</th>
+                                {% endfor %}
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student in students %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ student.first_name }} {{ student.last_name }}</td>
+                                {% for subject in subjects %}
+                                    {% with subject.id|stringformat:"s" as subject_id_str %}
+                                    {% with student.id|stringformat:"s"|add:"_"|add:subject_id_str as key %}
+                                    {% with key|get_subject_mark:marks_dict as mark %}
+                                    <td>
+                                        <input type="number" min="0" max="100" 
+                                               class="form-control mark-input" 
+                                               data-student-id="{{ student.id }}" 
+                                               data-subject-id="{{ subject.id }}"
+                                               data-term="{{ term }}"
+                                               data-year="{{ year }}"
+                                               value="{{ mark.score|default:'' }}">
+                                    </td>
+                                    <td class="text-center">
+                                        {% if mark.score is not None %}
+                                            {{ mark.score|get_grade }}
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </td>
+                                    {% endwith %}
+                                    {% endwith %}
+                                    {% endwith %}
+                                {% endfor %}
+                                <td class="text-center">
+                                    {% with student.marks.all|average_score as avg %}
+                                        {% if avg is not None %}
+                                            {{ avg|floatformat:2 }}
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    {% endwith %}
+                                </td>
+                                <td class="text-center">
+                                    {% with student.marks.all|average_score as avg %}
+                                        {% if avg is not None %}
+                                            {{ avg|get_grade }}
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    {% endwith %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

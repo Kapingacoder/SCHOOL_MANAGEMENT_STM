@@ -1,0 +1,76 @@
+<div class="children-container" style="display: none;">
+    <div class="section-header">
+        <h2>My Children</h2>
+        <div class="header-actions">
+            <div class="search-box">
+                <i class="fas fa-search"></i>
+                <input type="text" id="childrenSearch" placeholder="Search children...">
+            </div>
+        </div>
+    </div>
+
+    {% if children %}
+    <div class="children-grid">
+        {% for child in children %}
+        <div class="child-card" data-child-id="{{ child.id }}">
+            <div class="child-avatar">
+                {{ child.first_name|slice:":1" }}{{ child.last_name|slice:":1" }}
+            </div>
+            <div class="child-info">
+                <h3>{{ child.get_full_name }}</h3>
+                <p class="child-grade">
+                    {% if child.current_class %}
+                        {{ child.current_class.name }}
+                    {% elif child.student_class %}
+                        {{ child.student_class.name }}
+                    {% else %}
+                        No class assigned
+                    {% endif %}
+                </p>
+                <p class="child-school">
+                    {% if child.school_type %}
+                        {{ child.school_type|title }} School
+                    {% else %}
+                        School not specified
+                    {% endif %}
+                </p>
+            </div>
+            <div class="child-actions">
+                <button class="btn btn-sm btn-view-profile" data-child-id="{{ child.id }}">
+                    <i class="fas fa-user-graduate"></i> View Profile
+                </button>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <i class="fas fa-user-graduate"></i>
+        <h3>No Children Found</h3>
+        <p>You don't have any children registered yet.</p>
+    </div>
+    {% endif %}
+
+    <!-- Child Detail Modal -->
+    <div class="modal fade" id="childDetailModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Child Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="childDetailContent">
+                    <!-- Content will be loaded via AJAX -->
+                    <div class="text-center my-5">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

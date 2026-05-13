@@ -1,0 +1,250 @@
+/* Parent Student Report Styles - Enhanced for Attractiveness */
+
+.report-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.report-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 30px;
+    border-radius: 15px 15px 0 0;
+    text-align: center;
+    margin: -20px -20px 20px -20px;
+}
+
+.report-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.report-header p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+.card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    margin-bottom: 20px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    color: white;
+    border: none;
+    padding: 15px 20px;
+    font-weight: bold;
+}
+
+.card-body {
+    padding: 25px;
+    background: white;
+}
+
+.alert {
+    border-radius: 10px;
+    border: none;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.alert-info {
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    color: #2c3e50;
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #d299c2 0%, #fef9d7 100%);
+    color: #2c3e50;
+}
+
+.alert-warning {
+    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    color: #2c3e50;
+}
+
+.table {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.table thead th {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 15px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.table tbody tr {
+    transition: background-color 0.3s ease;
+}
+
+.table tbody tr:hover {
+    background-color: #f8f9ff;
+}
+
+.table tbody td {
+    padding: 12px 15px;
+    vertical-align: middle;
+    border-color: #e9ecef;
+}
+
+.table tfoot th {
+    background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.comment-section {
+    margin-bottom: 20px;
+}
+
+.comment-section h6 {
+    color: #4a5568;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.comment-section p {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    padding: 15px;
+    border-radius: 10px;
+    border-left: 4px solid #667eea;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    font-style: italic;
+    color: #2d3748;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.signature-section {
+    margin: 40px 0;
+    padding: 20px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.signature-section img {
+    max-width: 150px;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.signature-section p {
+    font-size: 1.1rem;
+    color: #667eea;
+    font-weight: 600;
+}
+
+.btn-container {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.btn {
+    border-radius: 25px;
+    padding: 12px 30px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    margin: 0 10px;
+    display: inline-block;
+    border: none;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+    color: white;
+}
+
+.btn-outline-primary {
+    background: transparent;
+    color: #667eea;
+    border: 2px solid #667eea;
+}
+
+.btn-outline-primary:hover {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.table-responsive {
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+@media (max-width: 768px) {
+    .report-header h1 {
+        font-size: 2rem;
+    }
+    
+    .card-body {
+        padding: 15px;
+    }
+    
+    .btn {
+        display: block;
+        margin: 10px auto;
+        width: 100%;
+        max-width: 200px;
+    }
+    
+    .signature-section {
+        flex-direction: column;
+    }
+    
+    .comment-section p {
+        min-height: auto;
+        padding: 10px;
+    }
+}
+
+/* Dark mode support if needed */
+@media (prefers-color-scheme: dark) {
+    .report-container {
+        background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+        color: #e2e8f0;
+    }
+    
+    .card-body {
+        background: #4a5568;
+        color: #e2e8f0;
+    }
+    
+    .comment-section p {
+        background: #2d3748;
+        color: #e2e8f0;
+    }
+}

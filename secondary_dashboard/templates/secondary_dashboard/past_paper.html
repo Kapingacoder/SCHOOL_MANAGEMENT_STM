@@ -1,0 +1,214 @@
+{% extends 'secondary_dashboard/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<style>
+    .resource-card {
+        border-radius: 0.75rem;
+        transition: all 0.3s ease;
+        height: 100%;
+        border: 1px solid rgba(0,0,0,0.1);
+    }
+    
+    .resource-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    .resource-icon {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        margin: 0 auto 1rem;
+    }
+    
+    .category-header {
+        position: relative;
+        padding: 1rem 0;
+        margin: 2rem 0 1.5rem;
+    }
+    
+    .category-header:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: var(--bs-primary);
+    }
+    
+    .btn-download {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .btn-download i {
+        transition: transform 0.3s ease;
+    }
+    
+    .btn-download:hover i {
+        transform: translateY(3px);
+    }
+    
+    .source-description {
+        min-height: 40px;
+        font-size: 0.9rem;
+        color: #6c757d;
+    }
+    
+    @media (max-width: 768px) {
+        .resource-card {
+            margin-bottom: 1.5rem;
+        }
+        
+        .category-header {
+            margin: 1.5rem 0 1rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block back_to_menu %}
+<a href="{% url 'secondary_dashboard:dashboard' %}" class="btn btn-outline-primary mb-3">
+    <i class="fas fa-arrow-left me-2"></i> Back to Dashboard
+</a>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold mb-3">Past Papers & Study Resources</h2>
+        <p class="text-muted">Access a wide range of past papers and study materials for all subjects and forms</p>
+    </div>
+    
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10">
+            {% for category in categories %}
+            <div class="mb-5">
+                <h4 class="category-header fw-bold">{{ category.name }}</h4>
+                <div class="row g-4">
+                    {% for source in category.sources %}
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="card resource-card h-100">
+                            <div class="card-body text-center p-4">
+                                <div class="resource-icon bg-soft-{{ source.color }} text-{{ source.color }}">
+                                    <i class="fas fa-{{ source.icon }}"></i>
+                                </div>
+                                <h5 class="card-title fw-bold mb-2">{{ source.name }}</h5>
+                                <p class="source-description mb-3">{{ source.description }}</p>
+                            </div>
+                            <div class="card-footer bg-transparent border-top-0 pt-0 pb-4 px-4">
+                                <div class="btn-group w-100" role="group">
+                                    <a href="{% url 'secondary_dashboard:embedded_content' %}?url={{ source.url|urlencode }}&title={{ source.name|urlencode }}" 
+                                       class="btn btn-sm btn-outline-{{ source.color }} flex-grow-1">
+                                        <i class="fas fa-eye me-2"></i> View
+                                    </a>
+                                    <button type="button" 
+                                            class="btn btn-sm btn-{{ source.color }} download-btn"
+                                            data-url="{% url 'secondary_dashboard:download_past_paper' %}?url={{ source.url|urlencode }}&filename={{ source.name|slugify }}.pdf">
+                                        <i class="fas fa-download me-2"></i> Save
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+            
+            <div class="alert alert-info mt-5">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-info-circle fa-2x me-3"></i>
+                    <div>
+                        <h5 class="alert-heading mb-2">How to Download</h5>
+                        <p class="mb-0">Click on any resource to open it in a new tab. Most resources are in PDF format and can be downloaded directly from the source website. For mobile users, press and hold on the download link and select "Download" or "Save link".</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="alert alert-light mt-4">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-mobile-alt fa-2x me-3 text-primary"></i>
+                    <div>
+                        <h5 class="alert-heading mb-2">Mobile-Friendly Access</h5>
+                        <p class="mb-0">All resources are accessible on mobile devices. For the best experience, we recommend using Google Chrome or Firefox browser when accessing past papers on your phone or tablet.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle download button clicks
+    document.querySelectorAll('.download-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const downloadUrl = this.getAttribute('data-url');
+            const originalText = this.innerHTML;
+            
+            // Show loading state
+            this.disabled = true;
+            this.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Downloading...';
+            
+            // Create a temporary iframe to handle the download
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            document.body.appendChild(iframe);
+            
+            // Set iframe src to trigger download
+            iframe.onload = function() {
+                // Re-enable button after a short delay
+                setTimeout(() => {
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                    document.body.removeChild(iframe);
+                }, 2000);
+            };
+            
+            iframe.src = downloadUrl;
+            
+            // Log the download attempt
+            console.log('Downloading resource:', downloadUrl);
+        });
+    });
+    
+    // Add animation to cards on scroll
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = 1;
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
+    
+    document.querySelectorAll('.resource-card').forEach((card, index) => {
+        card.style.opacity = 0;
+        card.style.transform = 'translateY(20px)';
+        card.style.transition = `opacity 0.5s ease ${index * 0.1}s, transform 0.5s ease ${index * 0.1}s`;
+        observer.observe(card);
+    });
+    
+    // Add tooltips for better mobile UX
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+});
+</script>
+{% endblock %}

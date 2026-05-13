@@ -1,0 +1,55 @@
+/* Students card (White background) */
+.bg-dark-green {
+    background-color: #17368c !important;
+}
+.bg-dark-green .card-title,
+.bg-dark-green h2,
+.bg-dark-green .card-text,
+.bg-dark-green i {
+    color: #007bff !important;
+}
+
+/* Parents card (White background) */
+.bg-slate-grey {
+    background-color: #1f108f !important;
+}
+.bg-slate-grey .card-title,
+.bg-slate-grey h2,
+.bg-slate-grey .card-text,
+.bg-slate-grey i {
+    color: #007bff !important;
+}
+
+/* Teachers card (White background) */
+.bg-charcoal {
+    background-color: #092787 !important;
+}
+.bg-charcoal .card-title,
+.bg-charcoal h2,
+.bg-charcoal .card-text,
+.bg-charcoal i {
+    color: #007bff !important;
+}
+.card-header.bg-dark-green {
+    border-bottom: 2px solid #0d3019;
+}
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(176, 177, 199, 0.05);
+}
+.table-striped tbody tr:hover {
+    background-color: rgba(35, 7, 128, 0.1);
+}
+
+/* Hover styles for blue text and icons on dashboard cards */
+.dashboard-card:hover .dashboard-icon {
+    color: #1a67ba !important;
+}
+
+.dashboard-card:hover .dashboard-text {
+    color: #007bff !important;
+}
+
+/* Main title and subtitle blue */
+h1, p {
+    color: #007bff !important;
+}

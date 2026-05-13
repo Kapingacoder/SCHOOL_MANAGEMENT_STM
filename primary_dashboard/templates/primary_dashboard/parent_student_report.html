@@ -1,0 +1,107 @@
+{% extends "base/base.html" %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'base/parent_student_report.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="report-container">
+        <div class="report-header bg-primary text-white p-4 rounded">
+            <h1 class="display-5">Student Report</h1>
+            <p class="lead">{{ student.first_name }} {{ student.last_name }} - {{ term }} {{ year }}</p>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-body">
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <div class="alert alert-info">
+                            <strong>Position in Class:</strong> {{ position }} out of {{ total_students }}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="alert alert-success">
+                            <strong>Average Score:</strong> {{ average|floatformat:2 }}%
+                        </div>
+                        {% if overall_grade %}
+                        <div class="alert alert-warning">
+                            <strong>Overall Grade:</strong> {{ overall_grade.name }}
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <h4 class="mb-3">Subject Performance</h4>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Subject</th>
+                                <th>Score</th>
+                                <th>Grade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for mark in marks %}
+                            <tr>
+                                <td>{{ mark.subject.name }}</td>
+                                <td>{{ mark.score|default:"-" }}</td>
+                                <td>{{ mark.grade.name|default:"-" }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot class="table-group-divider">
+                            <tr>
+                                <th scope="row">Total Score</th>
+                                <td colspan="2" class="text-center"><strong>{{ total_marks }}</strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-4">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">Comments</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Class Teacher's Comment</h6>
+                        <p class="border p-3 rounded bg-light">{{ report.class_teacher_comment|default:"No comment provided." }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Headteacher's Comment</h6>
+                        <p class="border p-3 rounded bg-light">{{ report.headteacher_comment|default:"No comment provided." }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row text-center mt-5 signature-section">
+            <div class="col-6">
+                {% if report.class_teacher_signature %}
+                    <img src="{{ report.class_teacher_signature.url }}" alt="Class Teacher's Signature" class="img-fluid">
+                {% endif %}
+                <p class="mt-2">_________________________</p>
+                <p><strong>Class Teacher</strong></p>
+            </div>
+            <div class="col-6">
+                {% if report.headteacher_signature %}
+                    <img src="{{ report.headteacher_signature.url }}" alt="Headteacher's Signature" class="img-fluid">
+                {% endif %}
+                <p class="mt-2">_________________________</p>
+                <p><strong>Headteacher</strong></p>
+            </div>
+        </div>
+
+        <div class="btn-container text-center mt-4">
+            <a href="{% url 'accounts:parent_dashboard' %}" class="btn btn-primary btn-lg"><i class="fas fa-arrow-left me-2"></i>Back to Dashboard</a>
+            <a href="{% url 'primary_dashboard:student_report_pdf' student.id class_obj.id term year %}" class="btn btn-outline-primary btn-lg ms-3"><i class="fas fa-download me-2"></i>Download PDF</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

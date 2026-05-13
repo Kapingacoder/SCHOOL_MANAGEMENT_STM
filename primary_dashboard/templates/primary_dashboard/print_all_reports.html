@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Print All Reports - {{ class_obj.get_name_display }} - {{ term }} {{ year }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .report-container {
+            page-break-after: always;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        .table th, .table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .table th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    {% for report in reports_data %}
+    <div class="report-container">
+        <h2>Report for {{ report.student.first_name }} {{ report.student.last_name }}</h2>
+        <p><strong>Class:</strong> {{ class_obj.get_name_display }}</p>
+        <p><strong>Term:</strong> {{ term }}</p>
+        <p><strong>Year:</strong> {{ year }}</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for mark in report.marks %}
+                <tr>
+                    <td>{{ mark.subject.name }}</td>
+                    <td>{{ mark.score }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>Total Score</th>
+                    <th>{{ report.total_score }}</th>
+                </tr>
+                <tr>
+                    <th>Average Score</th>
+                    <th>{{ report.average_score|floatformat:2 }}</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    {% endfor %}
+</body>
+</html>

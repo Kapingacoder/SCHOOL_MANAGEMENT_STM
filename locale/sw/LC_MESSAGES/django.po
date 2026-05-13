@@ -1,0 +1,66 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-07-29 11:00+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: sw\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: primary_dashboard/templates/primary_dashboard/parent_dashboard.html:14
+msgid "Home"
+msgstr "Nyumbani"
+
+#: primary_dashboard/templates/primary_dashboard/parent_dashboard.html:20
+msgid "Report"
+msgstr "Ripoti"
+
+#: primary_dashboard/templates/primary_dashboard/parent_dashboard.html:26
+msgid "Message"
+msgstr "Ujumbe"
+
+#: primary_dashboard/templates/primary_dashboard/parent_dashboard.html:35
+msgid "Parent Dashboard"
+msgstr "Dashibodi ya Mzazi"
+
+#: primary_dashboard/templates/primary_dashboard/parent_dashboard.html:60
+msgid "Welcome"
+msgstr "Karibu"
+
+#: primary_dashboard/templates/primary_dashboard/parent_dashboard.html:61
+msgid "Here you can view the development of your child."
+msgstr "Hapa unaweza kuona maendeleo ya mtoto wako."
+
+#: primary_dashboard/templates/primary_dashboard/parent_dashboard.html:70
+msgid "Your Children"
+msgstr "Watoto Wako"
+
+#: primary_dashboard/templates/primary_dashboard/parent_dashboard.html:77
+msgid "Name"
+msgstr "Jina"
+
+#: primary_dashboard/templates/primary_dashboard/parent_dashboard.html:78
+msgid "Class"
+msgstr "Darasa"
+
+#: primary_dashboard/templates/primary_dashboard/parent_dashboard.html:79
+msgid "Actions"
+msgstr "Vitendo"
+
+#: primary_dashboard/templates/primary_dashboard/parent_dashboard.html:88
+msgid "Download Report"
+msgstr "Pakua Ripoti"
+
+#: primary_dashboard/templates/primary_dashboard/parent_dashboard.html:97
+msgid "No children registered under your account."
+msgstr "Hakuna watoto waliosajiliwa chini ya akaunti yako."

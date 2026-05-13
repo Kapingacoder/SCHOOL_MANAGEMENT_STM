@@ -1,0 +1,234 @@
+{% extends 'secondary_dashboard/base.html' %}
+{% block back_to_menu %}
+<a href="{% url 'secondary_dashboard:dashboard' %}" class="btn btn-outline-primary mb-3">
+    <i class="fas fa-arrow-left"></i> Back to Menu
+</a>
+{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 howto-card">
+                <div class="card-body p-5">
+                    <h2 class="mb-4 text-center text-primary fw-bold"><i class="fas fa-lightbulb me-2"></i>How to Use the Secondary Dashboard</h2>
+                    <p class="lead text-center mb-4 text-secondary">Welcome! This guide will help you explore and make the most of all features available in the Secondary Dashboard. Enjoy the journey!</p>
+                    <div class="accordion mb-4" id="howToUseAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingHome">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseHome" aria-expanded="false" aria-controls="collapseHome">
+                                    <span class="fw-bold text-success">Home</span>
+                                </button>
+                            </h2>
+                            <div id="collapseHome" class="accordion-collapse collapse" aria-labelledby="headingHome" data-bs-parent="#howToUseAccordion">
+                                <div class="accordion-body">
+                                    <ul>
+                                        <li>Get a quick overview of total students, teachers, and parents.</li>
+                                        <li>See recent activities and updates at a glance.</li>
+                                        <li>Use this as your starting point to navigate the system.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingEvents">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEvents" aria-expanded="false" aria-controls="collapseEvents">
+                                    <span class="fw-bold text-success">Events</span>
+                                </button>
+                            </h2>
+                            <div id="collapseEvents" class="accordion-collapse collapse" aria-labelledby="headingEvents" data-bs-parent="#howToUseAccordion">
+                                <div class="accordion-body">
+                                    <ul>
+                                        <li>View all upcoming and past school events.</li>
+                                        <li>Admins can add, edit, or delete events to keep everyone informed.</li>
+                                        <li>Stay updated on important dates like meetings, exams, and holidays.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingForms">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseForms" aria-expanded="false" aria-controls="collapseForms">
+                                    <span class="fw-bold text-success">Forms</span>
+                                </button>
+                            </h2>
+                            <div id="collapseForms" class="accordion-collapse collapse" aria-labelledby="headingForms" data-bs-parent="#howToUseAccordion">
+                                <div class="accordion-body">
+                                    <ul>
+                                        <li>View all classes (Form 1-6) and their streams.</li>
+                                        <li>Add, edit, or remove forms and assign class teachers.</li>
+                                        <li>Manage subjects for each form.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingMarks">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMarks" aria-expanded="false" aria-controls="collapseMarks">
+                                    <span class="fw-bold text-success">Marks</span>
+                                </button>
+                            </h2>
+                            <div id="collapseMarks" class="accordion-collapse collapse" aria-labelledby="headingMarks" data-bs-parent="#howToUseAccordion">
+                                <div class="accordion-body">
+                                    <ul>
+                                        <li>Enter marks for students by form and subject.</li>
+                                        <li>Review and update marks as needed.</li>
+                                        <li>Automatic grade calculation and validation.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingSettings">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSettings" aria-expanded="false" aria-controls="collapseSettings">
+                                    <span class="fw-bold text-success">Settings</span>
+                                </button>
+                            </h2>
+                            <div id="collapseSettings" class="accordion-collapse collapse" aria-labelledby="headingSettings" data-bs-parent="#howToUseAccordion">
+                                <div class="accordion-body">
+                                    <ul>
+                                        <li>Update school details, logo, and contact information.</li>
+                                        <li>Manage subjects, grades, and divisions for assessments.</li>
+                                        <li>Customize the system to fit your school's needs.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingReport">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseReport" aria-expanded="false" aria-controls="collapseReport">
+                                    <span class="fw-bold text-success">Report</span>
+                                </button>
+                            </h2>
+                            <div id="collapseReport" class="accordion-collapse collapse" aria-labelledby="headingReport" data-bs-parent="#howToUseAccordion">
+                                <div class="accordion-body">
+                                    <ul>
+                                        <li>Generate detailed performance reports for students.</li>
+                                        <li>View, print, or export reports for each class or student.</li>
+                                        <li>Track progress and identify areas for improvement.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingPassword">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePassword" aria-expanded="false" aria-controls="collapsePassword">
+                                    <span class="fw-bold text-success">Change Password</span>
+                                </button>
+                            </h2>
+                            <div id="collapsePassword" class="accordion-collapse collapse" aria-labelledby="headingPassword" data-bs-parent="#howToUseAccordion">
+                                <div class="accordion-body">
+                                    <ul>
+                                        <li>Keep your account secure by regularly updating your password.</li>
+                                        <li>Follow password best practices for safety.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingMessages">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMessages" aria-expanded="false" aria-controls="collapseMessages">
+                                    <span class="fw-bold text-success">Messages</span>
+                                </button>
+                            </h2>
+                            <div id="collapseMessages" class="accordion-collapse collapse" aria-labelledby="headingMessages" data-bs-parent="#howToUseAccordion">
+                                <div class="accordion-body">
+                                    <ul>
+                                        <li>Send important announcements to parents and staff.</li>
+                                        <li>Receive updates and notifications from the school.</li>
+                                        <li>Keep communication organized and accessible.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTeachers">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTeachers" aria-expanded="false" aria-controls="collapseTeachers">
+                                    <span class="fw-bold text-success">Teachers</span>
+                                </button>
+                            </h2>
+                            <div id="collapseTeachers" class="accordion-collapse collapse" aria-labelledby="headingTeachers" data-bs-parent="#howToUseAccordion">
+                                <div class="accordion-body">
+                                    <ul>
+                                        <li>View a list of all secondary school teachers.</li>
+                                        <li>Manage teacher assignments and details.</li>
+                                        <li>Promote collaboration among staff.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingTimetable">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTimetable" aria-expanded="false" aria-controls="collapseTimetable">
+                                    <span class="fw-bold text-success">Time Table</span>
+                                </button>
+                            </h2>
+                            <div id="collapseTimetable" class="accordion-collapse collapse" aria-labelledby="headingTimetable" data-bs-parent="#howToUseAccordion">
+                                <div class="accordion-body">
+                                    <ul>
+                                        <li>Upload and view timetables for each form (Form 1-6).</li>
+                                        <li>Ensure students and teachers are aware of class schedules.</li>
+                                        <li>Download timetables for offline use.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingPastPapers">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePastPapers" aria-expanded="false" aria-controls="collapsePastPapers">
+                                    <span class="fw-bold text-success">Past Papers</span>
+                                </button>
+                            </h2>
+                            <div id="collapsePastPapers" class="accordion-collapse collapse" aria-labelledby="headingPastPapers" data-bs-parent="#howToUseAccordion">
+                                <div class="accordion-body">
+                                    <ul>
+                                        <li>Access a wide range of past exam papers from trusted sources.</li>
+                                        <li>Use past papers for revision, practice, and exam preparation.</li>
+                                        <li>Links to Maktaba, Waza Elimu, Learning Hub Tanzania, Different Schools, and more.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert alert-info text-center mt-4">
+                        <i class="fas fa-smile-beam fa-2x text-primary mb-2"></i><br>
+                        <span class="fw-bold">Tip:</span> Click any icon on the dashboard to explore its features. The system is designed to be intuitive and user-friendly. Enjoy discovering all the tools at your fingertips!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+.howto-card {
+    border-radius: 1.5rem;
+    background: linear-gradient(135deg, #f8fafc 60%, #e3f0ff 100%);
+    border: none;
+}
+.list-group-item {
+    font-size: 1.1rem;
+    background: transparent;
+    border: none;
+    padding-left: 0;
+    padding-right: 0;
+}
+.alert-info {
+    background: linear-gradient(90deg, #e0eaff 60%, #f8fafc 100%);
+    border: none;
+    color: #0d6efd;
+}
+.accordion-button {
+    font-size: 1.15rem;
+    font-weight: 600;
+    background: #f8fafc;
+    color: #198754;
+}
+.accordion-button:not(.collapsed) {
+    color: #fff;
+    background: linear-gradient(90deg, #198754 60%, #0d6efd 100%);
+}
+.accordion-body {
+    background: #f8fafc;
+    border-radius: 0 0 1rem 1rem;
+}
+</style>
+{% endblock %}

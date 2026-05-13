@@ -1,0 +1,101 @@
+body {
+    background-color: #f8f9fa;
+}
+#sidebar-wrapper {
+    min-height: 100vh;
+    margin-left: -15rem;
+    transition: margin 0.25s ease-out;
+    width: 15rem;
+    background: linear-gradient(180deg, #6c757d 0%, #5a6268 100%);
+}
+#sidebar-wrapper .sidebar-heading {
+    padding: 0.875rem 1.25rem;
+    font-size: 1.2rem;
+    background-color: rgba(0, 0, 0, 0.1);
+    color: white;
+}
+#sidebar-wrapper .list-group {
+    width: 15rem;
+}
+#sidebar-wrapper .list-group-item {
+    border-radius: 0;
+    border: none;
+    background: transparent;
+    color: white;
+}
+#sidebar-wrapper .list-group-item:hover, 
+#sidebar-wrapper .list-group-item.active {
+    background: rgba(255, 255, 255, 0.1);
+}
+#page-content-wrapper {
+    min-width: 100vw;
+}
+#wrapper.toggled #sidebar-wrapper {
+    margin-left: 0;
+}
+@media (min-width: 768px) {
+    #sidebar-wrapper {
+        margin-left: 0;
+    }
+    #page-content-wrapper {
+        min-width: 0;
+        width: 100%;
+    }
+    #wrapper.toggled #sidebar-wrapper {
+        margin-left: -15rem;
+    }
+}
+.card {
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+.card:hover {
+    transform: translateY(-5px);
+}
+.stat-card {
+    border-radius: 10px;
+}
+.stat-card i {
+    font-size: 2.5rem;
+    opacity: 0.8;
+}
+.table-responsive {
+    border-radius: 10px;
+    overflow: hidden;
+}
+.form-control, .form-select {
+    border-radius: 5px;
+}
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+.btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #5a6268;
+}
+.bg-secondary {
+    background-color: #6c757d !important;
+}
+.text-secondary {
+    color: #6c757d !important;
+}
+.border-secondary {
+    border-color: #6c757d !important;
+}
+
+/* Special styling for Change Password link in secondary sidebar */
+#sidebar-wrapper .list-group-item:has(.fa-key) {
+    background: linear-gradient(135deg, rgba(40, 167, 69, 0.2) 0%, rgba(34, 197, 94, 0.2) 100%) !important;
+    border-left: 4px solid #28a745;
+    font-weight: 600;
+    color: #90EE90 !important;
+}
+
+#sidebar-wrapper .list-group-item:has(.fa-key):hover {
+    background: linear-gradient(135deg, rgba(40, 167, 69, 0.3) 0%, rgba(34, 197, 94, 0.3) 100%) !important;
+    color: #98FB98 !important;
+    transform: translateX(5px);
+}

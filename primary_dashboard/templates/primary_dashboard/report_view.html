@@ -1,0 +1,84 @@
+{% extends 'primary_dashboard/base.html' %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <h1 class="display-6">Report for {{ student.first_name }} {{ student.last_name }}</h1>
+        <p class="lead text-muted">Editing report for {{ term }} {{ year }}</p>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h5 class="mb-0"><i class="fas fa-edit me-2"></i>Edit Report</h5>
+            </div>
+            <div class="card-body">
+                <p><strong>Position in class:</strong> {{ rank }} out of {{ total_students_in_class }}</p>
+                <p><strong>Total Score:</strong> {{ total_score }}</p>
+                <p><strong>Average Score:</strong> {{ average_score|floatformat:2 }}</p>
+                <hr>
+                <form action="{% url 'primary_dashboard:generate_pdf_report' student.id term year %}" method="post" enctype="multipart/form-data" target="_blank">
+                    {% csrf_token %}
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Subject</th>
+                                    <th>Score</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for mark in marks %}
+                                <tr>
+                                    <td>{{ mark.subject.name }}</td>
+                                    <td><input type="number" name="score_{{ mark.id }}" value="{{ mark.score }}" class="form-control"></td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mb-3">
+                        <label for="class_teacher_signature" class="form-label">Class Teacher's Signature</label>
+                        <input class="form-control" type="file" id="class_teacher_signature" name="class_teacher_signature">
+                        {% if report.class_teacher_signature %}
+                            <img src="{{ report.class_teacher_signature.url }}" alt="Class Teacher's Signature" width="100">
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="headteacher_signature" class="form-label">Headteacher's Signature</label>
+                        <input class="form-control" type="file" id="headteacher_signature" name="headteacher_signature">
+                        {% if report.headteacher_signature %}
+                        <img src="{{ report.headteacher_signature.url }}" alt="Headteacher's Signature" width="100">
+                        {% endif %}
+                    </div>
+                    <a href="{% url 'primary_dashboard:dashboard' %}" class="btn btn-secondary"><i class="fas fa-arrow-left me-2"></i>Back to Dashboard</a>
+                    <button type="submit" class="btn btn-primary"><i class="fas fa-download me-2"></i>Download Edited Report</button>
+                </form>
+
+                <!-- Comments section at the bottom -->
+                <div class="card mt-4">
+                    <div class="card-header bg-light">
+                        <h5 class="mb-0">Comments</h5>
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="class_teacher_comment" class="form-label">Class Teacher's Comment</label>
+                                <textarea class="form-control" id="class_teacher_comment" name="class_teacher_comment" rows="3">{{ report.class_teacher_comment }}</textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="headteacher_comment" class="form-label">Headteacher's Comment</label>
+                                <textarea class="form-control" id="headteacher_comment" name="headteacher_comment" rows="3">{{ report.headteacher_comment }}</textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Save Comments</button>
+                        </form>
+                    </div>
+                </div>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

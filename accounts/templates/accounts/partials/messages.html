@@ -1,0 +1,163 @@
+<div class="messages-container" style="display: none;">
+    <div class="section-header">
+        <h2>Messages</h2>
+        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newMessageModal">
+            <i class="fas fa-plus me-2"></i>New Message
+        </button>
+    </div>
+
+    <div class="messages-wrapper">
+        <!-- Sidebar with message threads -->
+        <div class="messages-sidebar">
+            <div class="messages-search">
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fas fa-search"></i></span>
+                    <input type="text" class="form-control" placeholder="Search messages..." id="messageSearch">
+                </div>
+            </div>
+            
+            <div class="message-filters">
+                <button class="filter-btn active" data-filter="all">All Messages</button>
+                <button class="filter-btn" data-filter="unread">Unread ({{ unread_count }})</button>
+                <button class="filter-btn" data-filter="sent">Sent</button>
+            </div>
+            
+            <div class="message-threads" id="messageThreads">
+                {% if received_messages %}
+                    {% for item in received_messages %}
+                    <div class="message-thread {% if not item.message.is_read %}unread{% endif %}" 
+                         data-message-id="{{ item.message.id }}" 
+                         data-sender-id="{{ item.message.sender.id }}">
+                        <div class="thread-avatar">
+                            {{ item.message.sender.first_name|slice:":1" }}{{ item.message.sender.last_name|slice:":1" }}
+                        </div>
+                        <div class="thread-content">
+                            <div class="thread-header">
+                                <h6>{{ item.message.sender.get_full_name|default:item.message.sender.username }}</h6>
+                                <span class="thread-time">{{ item.message.timestamp|timesince }} ago</span>
+                            </div>
+                            <p class="thread-preview">{{ item.message.subject }}</p>
+                            <p class="thread-snippet">{{ item.message.content|truncatewords:15 }}</p>
+                        </div>
+                        {% if not item.message.is_read %}
+                        <span class="unread-badge"></span>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <p>No messages yet</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Message content area -->
+        <div class="message-content" id="messageContent">
+            <div class="empty-message">
+                <i class="far fa-comment-dots"></i>
+                <h4>Select a message to read</h4>
+                <p>Choose a conversation from the list to view messages</p>
+            </div>
+            
+            <!-- Message thread will be loaded here via AJAX -->
+            <div class="message-thread-view" id="messageThreadView" style="display: none;">
+                <div class="message-header">
+                    <button class="btn btn-back d-md-none" id="backToThreads">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <div class="message-recipient">
+                        <div class="recipient-avatar" id="messageRecipientAvatar"></div>
+                        <div>
+                            <h5 id="messageRecipientName"></h5>
+                            <small class="text-muted" id="messageRecipientEmail"></small>
+                        </div>
+                    </div>
+                    <div class="message-actions">
+                        <button class="btn btn-icon" title="Reply">
+                            <i class="fas fa-reply"></i>
+                        </button>
+                        <button class="btn btn-icon" title="Forward">
+                            <i class="fas fa-share"></i>
+                        </button>
+                        <div class="dropdown">
+                            <button class="btn btn-icon" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="#">Mark as Unread</a></li>
+                                <li><a class="dropdown-item" href="#">Print</a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-danger" href="#">Delete</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="message-body" id="messageThreadBody">
+                    <!-- Messages will be loaded here via AJAX -->
+                </div>
+                
+                <div class="message-compose">
+                    <form id="replyMessageForm">
+                        <div class="form-group">
+                            <textarea class="form-control" id="messageReply" rows="3" placeholder="Type your reply..."></textarea>
+                        </div>
+                        <div class="compose-actions">
+                            <div class="compose-tools">
+                                <button type="button" class="btn btn-icon" title="Attach file">
+                                    <i class="fas fa-paperclip"></i>
+                                </button>
+                            </div>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-paper-plane me-2"></i>Send
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- New Message Modal -->
+<div class="modal fade" id="newMessageModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">New Message</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="newMessageForm">
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="recipientSelect" class="form-label">To</label>
+                        <select class="form-select" id="recipientSelect" required>
+                            <option value="" selected disabled>Select recipient</option>
+                            <!-- Teachers will be loaded here via AJAX -->
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="messageSubject" class="form-label">Subject</label>
+                        <input type="text" class="form-control" id="messageSubject" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="messageContent" class="form-label">Message</label>
+                        <textarea class="form-control" id="messageContent" rows="5" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="messageAttachment" class="form-label">Attachment</label>
+                        <input type="file" class="form-control" id="messageAttachment">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane me-2"></i>Send Message
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

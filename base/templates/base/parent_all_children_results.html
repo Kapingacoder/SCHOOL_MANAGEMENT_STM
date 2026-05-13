@@ -1,0 +1,18 @@
+<h2>Matokeo ya Watoto Wako</h2>
+{% if primary_children %}
+  <h3>Primary</h3>
+  {% for student in primary_children %}
+    <p>{{ student.full_name }} (Primary)</p>
+    <!-- Add more details or results as needed -->
+  {% endfor %}
+{% endif %}
+{% if secondary_children %}
+  <h3>Secondary</h3>
+  {% for student in secondary_children %}
+    <p>{{ student.full_name }} (Secondary)</p>
+    <!-- Add more details or results as needed -->
+  {% endfor %}
+{% endif %}
+{% if not primary_children and not secondary_children %}
+  <p>Hakuna matokeo ya kuonyesha.</p>
+{% endif %}

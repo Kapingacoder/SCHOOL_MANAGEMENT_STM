@@ -1,0 +1,63 @@
+{% extends 'primary_dashboard/base.html' %}
+{% load static %}
+
+{% block title %}Exam Documents{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'secondary_dashboard/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="display-4" data-en="Exam Documents" data-sw="Hati za Mitihani">Exam Documents</h1>
+            <p class="lead text-muted" data-en="Upload and manage exam results and joining instructions" data-sw="Pakia na simamia matokeo ya mitihani na maagizo ya kujiunga">Upload and manage exam results and joining instructions</p>
+        </div>
+    </div>
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <a href="{% url 'primary_dashboard:upload_document' %}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Upload New Document
+            </a>
+        </div>
+    </div>
+
+    <div class="row">
+        {% for document in documents %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ document.title }}</h5>
+                    <p class="card-text">
+                        <strong>Type:</strong> {{ document.get_document_type_display }}<br>
+                        <strong>Uploaded:</strong> {{ document.uploaded_at|date:"M d, Y" }}<br>
+                        {% if document.description %}
+                        <strong>Description:</strong> {{ document.description|truncatechars:100 }}
+                        {% endif %}
+                    </p>
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ document.file.url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-eye"></i> View
+                        </a>
+                        <a href="{{ document.file.url }}" download class="btn btn-sm btn-outline-success">
+                            <i class="fas fa-download"></i> Download
+                        </a>
+                        <a href="{% url 'primary_dashboard:delete_document' document.id %}" class="btn btn-sm btn-outline-danger">
+                            <i class="fas fa-trash"></i> Delete
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i> No documents uploaded yet.
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

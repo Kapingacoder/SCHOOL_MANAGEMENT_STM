@@ -1,0 +1,113 @@
+<div class="overview-container">
+    <div class="welcome-banner">
+        <h2>Welcome back, {{ user.first_name }}!</h2>
+        <p>Here's what's happening with your children today</p>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon" style="background-color: #4e73df;">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-info">
+                <h3>{{ children|length }}</h3>
+                <p>Children</p>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon" style="background-color: #1cc88a;">
+                <i class="fas fa-envelope"></i>
+            </div>
+            <div class="stat-info">
+                <h3>{{ unread_count }}</h3>
+                <p>Unread Messages</p>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon" style="background-color: #f6c23e;">
+                <i class="fas fa-calendar-alt"></i>
+            </div>
+            <div class="stat-info">
+                <h3>{{ events|length }}</h3>
+                <p>Upcoming Events</p>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon" style="background-color: #e74a3b;">
+                <i class="fas fa-file-alt"></i>
+            </div>
+            <div class="stat-info">
+                <h3>{{ documents|length }}</h3>
+                <p>Available Documents</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="recent-activity">
+        <div class="activity-header">
+            <h3>Recent Activity</h3>
+            <a href="#" class="view-all" data-section="messages">View All</a>
+        </div>
+        
+        <div class="activity-list">
+            {% if received_messages|slice:":5" %}
+                {% for item in received_messages|slice:":5" %}
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fas fa-envelope{% if not item.message.is_read %}-open{% endif %}"></i>
+                    </div>
+                    <div class="activity-details">
+                        <h4>New Message from {{ item.message.sender.get_full_name|default:item.message.sender.username }}</h4>
+                        <p>{{ item.message.subject }}</p>
+                        <span class="activity-time">{{ item.message.timestamp|timesince }} ago</span>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <i class="fas fa-inbox"></i>
+                    <p>No recent activity to show</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="upcoming-events">
+        <div class="events-header">
+            <h3>Upcoming Events</h3>
+            <a href="#" class="view-all" data-section="events">View All</a>
+        </div>
+        
+        <div class="events-list">
+            {% if events|slice:":3" %}
+                {% for event in events|slice:":3" %}
+                <div class="event-item">
+                    <div class="event-date">
+                        <span class="event-day">{{ event.date|date:"d" }}</span>
+                        <span class="event-month">{{ event.date|date:"M" }}</span>
+                    </div>
+                    <div class="event-details">
+                        <h4>{{ event.title }}</h4>
+                        <p><i class="far fa-clock"></i> {{ event.date|date:"F j, Y" }}
+                            {% if event.time %}
+                                at {{ event.time|time:"g:i A" }}
+                            {% endif %}
+                        </p>
+                        {% if event.location %}
+                        <p><i class="fas fa-map-marker-alt"></i> {{ event.location }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <i class="far fa-calendar-alt"></i>
+                    <p>No upcoming events</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

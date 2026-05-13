@@ -1,0 +1,95 @@
+ /* Beautiful and Attractive Primary Dashboard Styles (matching secondary) */
+.primary-dashboard-container {
+    background: linear-gradient(135deg, #0a4ecb 0%, #165bbc 100%);
+    min-height: 100vh;
+    padding: 2rem 0;
+}
+.primary-dashboard-menu {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+.dashboard-card {
+    background: hsl(241, 88%, 42%);
+    border-radius: 16px;
+    box-shadow: 0 2px 12px rgba(17, 3, 108, 0.08);
+    padding: 1.5rem 1.2rem;
+    text-align: center;
+    transition: box-shadow 0.2s, transform 0.2s;
+    cursor: pointer;
+    color: #fff;
+    text-decoration: none;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.dashboard-card:hover {
+    box-shadow: 0 6px 24px rgba(0,123,255,0.12);
+    transform: translateY(-4px) scale(1.04);
+    background: linear-gradient(135deg, hsl(234, 93%, 32%) 0%, #b51233 100%);
+}
+.dashboard-icon {
+    font-size: 2.2rem;
+    color: orange !important;
+    margin-bottom: 0.5rem;
+    transition: all 0.3s ease;
+    text-shadow: 2px 2px 4px rgba(32, 242, 8, 0.3);
+}
+.dashboard-card:hover .dashboard-icon,
+.dashboard-card:active .dashboard-icon {
+    color: green !important;
+    transform: scale(1.1) rotate(8deg);
+    text-shadow: 4px 4px 8px rgba(110, 206, 20, 0.5);
+}
+.dashboard-text {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #fff;
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+}
+.dashboard-card:hover .dashboard-text,
+.dashboard-card:active .dashboard-text {
+    color: green !important;
+}
+.card-title {
+    color: hsl(121, 93%, 43%) !important;
+}
+.card-body i {
+    transition: all 0.3s ease;
+    text-shadow: 2px 2px 4px rgba(32, 242, 8, 0.3);
+    transform: perspective(500px) rotateX(0deg) rotateY(0deg);
+}
+.card:hover .card-body i {
+    transform: perspective(500px) rotateX(10deg) rotateY(10deg) scale(1.1);
+    text-shadow: 4px 4px 8px rgba(110, 206, 20, 0.5);
+    filter: drop-shadow(0 4px 8px rgba(134, 197, 7, 0.3));
+}
+.card:hover .card-title {
+    color: lab(30.83% 49.54 -79.4) !important;
+}
+.notification-badge {
+    background: #19c37d !important;
+    color: #fff !important;
+    box-shadow: 0 2px 8px rgba(25, 195, 125, 0.3);
+    border: 2px solid #fff;
+    animation: pop-bounce 0.7s cubic-bezier(.68,-0.55,.27,1.55) 1;
+}
+@keyframes pop-bounce {
+    0% { transform: scale(0.7); }
+    60% { transform: scale(1.2); }
+    80% { transform: scale(0.95); }
+    100% { transform: scale(1); }
+}
+
+@media (max-width: 900px) {
+    .primary-dashboard-menu {
+        justify-content: center;
+    }
+    .primary-dashboard-card {
+        max-width: 100%;
+    }
+}

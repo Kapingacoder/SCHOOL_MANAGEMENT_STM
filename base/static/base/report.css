@@ -1,0 +1,11 @@
+.card-header {
+    text-align: center;
+}
+
+.logo {
+    max-height: 100px;
+    margin-bottom: 10px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}

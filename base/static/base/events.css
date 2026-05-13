@@ -1,0 +1,118 @@
+
+/* General container styling */
+.event-form-container {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e0e0e0;
+}
+
+/* Title styling */
+.event-form-container h1 {
+    text-align: center;
+    color: #333;
+    font-family: 'Poppins', sans-serif;
+    font-size: 2.5em;
+    margin-bottom: 30px;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 10px;
+}
+
+/* Form styling */
+.event-form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Input field styling */
+.event-form input[type="text"],
+.event-form input[type="date"],
+.event-form input[type="time"],
+.event-form textarea,
+.event-form select {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1em;
+    font-family: 'Roboto', sans-serif;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.event-form input[type="text"]:focus,
+.event-form input[type="date"]:focus,
+.event-form input[type="time"]:focus,
+.event-form textarea:focus,
+.event-form select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.25);
+    outline: none;
+}
+
+/* Textarea specific styling */
+.event-form textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Button styling */
+.event-form button {
+    padding: 15px 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: #007bff;
+    color: white;
+    font-size: 1.2em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+    margin-top: 10px;
+}
+
+.event-form button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+/* Delete confirmation styling */
+.delete-confirmation {
+    text-align: center;
+    padding: 40px;
+}
+
+.delete-confirmation p {
+    font-size: 1.2em;
+    margin-bottom: 30px;
+}
+
+.delete-confirmation .btn-danger {
+    background-color: #dc3545;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.delete-confirmation .btn-danger:hover {
+    background-color: #c82333;
+}
+
+.delete-confirmation .btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    padding: 12px 25px;
+    border-radius: 8px;
+    text-decoration: none;
+    margin-left: 15px;
+    transition: background-color 0.3s;
+}
+
+.delete-confirmation .btn-secondary:hover {
+    background-color: #5a6268;
+}

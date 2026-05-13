@@ -1,0 +1,43 @@
+{% extends 'primary_dashboard/base.html' %}
+{% block back_to_menu %}
+<a href="{% url 'primary_dashboard:dashboard' %}" class="btn btn-outline-primary mb-3">
+    <i class="fas fa-arrow-left"></i> Back to Menu
+</a>
+{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <h2 class="mb-4 text-center">Past Papers Resources</h2>
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg border-0">
+                <div class="card-body text-center">
+                    <i class="fas fa-file-archive fa-4x mb-3 text-secondary"></i>
+                    <h4 class="mb-4">Access Past Papers from Top Tanzanian Resources</h4>
+                    <div class="d-grid gap-3">
+                        <a href="https://maktaba.tetea.org/resources/?utm_source=chatgpt.com" target="_blank" class="btn btn-outline-primary btn-lg rounded-pill fw-bold shadow-sm">Maktaba</a>
+                        <a href="https://wazaelimu.com/past-papers-form-1-4-midterm-terminal-annual-joint-exams/" target="_blank" class="btn btn-outline-success btn-lg rounded-pill fw-bold shadow-sm">Waza Elimu</a>
+                        <a href="https://learninghubtz.co.tz/secondary-exams-series.php?utm_source=chatgpt.com" target="_blank" class="btn btn-outline-warning btn-lg rounded-pill fw-bold shadow-sm">Learning Hub Tanzania</a>
+                        <a href="https://www.scribd.com/document/659168987/Mathematics-Form-One-Terminal?utm_source=chatgpt.com" target="_blank" class="btn btn-outline-info btn-lg rounded-pill fw-bold shadow-sm">Different Schools</a>
+                        <a href="https://pastpapershared.com/secondary_pastpapers.php" target="_blank" class="btn btn-outline-dark btn-lg rounded-pill fw-bold shadow-sm">All Joint for Special Schools</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+.card.shadow-lg {
+    border-radius: 1.5rem;
+    background: #f8f9fa;
+}
+.btn {
+    letter-spacing: 0.5px;
+    font-size: 1.1rem;
+    transition: all 0.2s;
+}
+.btn:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.08);
+}
+</style>
+{% endblock %}

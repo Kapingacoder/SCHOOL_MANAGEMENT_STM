@@ -1,0 +1,98 @@
+{# base/templates/base/menubar.html #}
+{% load static %}
+<link rel="stylesheet" href="{% static 'base/menubar.css' %}">
+
+<header id="mainHeader" class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <div class="container-fluid px-3">
+        <!-- Compact Logo -->
+        <a class="navbar-brand d-flex align-items-center fw-bold" href="#">
+            <i class="fas fa-school me-2"></i>
+            <span class="fs-5">School<span class="text-warning">Pro</span></span>
+        </a>
+
+        <!-- Mobile Toggle Button -->
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- Compact Navigation -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link px-3 py-2" href="/" data-en="Home" data-sw="Nyumbani">
+                        <i class="fas fa-home me-1"></i>Home
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-3 py-2" href="#about" data-en="About" data-sw="Kuhusu">
+                        <i class="fas fa-info-circle me-1"></i>About
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-3 py-2" href="#gallery" data-en="Gallery" data-sw="Picha">
+                        <i class="fas fa-images me-1"></i>Gallery
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link px-3 py-2" href="#contact" data-en="Contact" data-sw="Mawasiliano">
+                        <i class="fas fa-envelope me-1"></i>Contact
+                    </a>
+                </li>
+            </ul>
+
+            <!-- Compact Language Switcher -->
+            <div class="d-flex align-items-center">
+                <div class="dropdown">
+                    <button class="btn btn-outline-light btn-sm dropdown-toggle d-flex align-items-center" type="button" id="languageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-globe me-1"></i>
+                        <span class="d-none d-sm-inline" id="currentLang">EN</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                        <li><a class="dropdown-item" href="#" onclick="setLanguage('en')">
+                            <i class="fas fa-language me-2"></i>English
+                        </a></li>
+                        <li><a class="dropdown-item" href="#" onclick="setLanguage('sw')">
+                            <i class="fas fa-language me-2"></i>Swahili
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<script>
+// Bilingual support for all pages using the menubar
+function setLanguage(lang) {
+    // Update all bilingual elements
+    document.querySelectorAll('[data-en]').forEach(function(el) {
+        el.textContent = el.getAttribute('data-' + lang);
+    });
+
+    // Update language indicator
+    const currentLangEl = document.getElementById('currentLang');
+    if (currentLangEl) {
+        currentLangEl.textContent = lang.toUpperCase();
+    }
+
+    // Store language preference
+    localStorage.setItem('preferredLanguage', lang);
+}
+
+function setupBilingual() {
+    const select = document.getElementById('top-language-select');
+    const dropdown = document.getElementById('languageDropdown');
+
+    // Load saved language preference
+    const savedLang = localStorage.getItem('preferredLanguage') || 'en';
+    setLanguage(savedLang);
+
+    // Update dropdown if it exists
+    const currentLangEl = document.getElementById('currentLang');
+    if (currentLangEl) {
+        currentLangEl.textContent = savedLang.toUpperCase();
+    }
+}
+
+document.addEventListener('DOMContentLoaded', setupBilingual);
+</script>

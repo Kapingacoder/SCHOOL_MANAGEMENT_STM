@@ -1,0 +1,308 @@
+/* Modern Primary Sidebar Styling */
+.modern-sidebar {
+    width: 280px;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #1e3c72 0%, #2a5298 50%, #3b82f6 100%);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 4px 0 20px rgba(30, 60, 114, 0.3);
+}
+
+.modern-sidebar::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="sidebar-pattern" width="30" height="30" patternUnits="userSpaceOnUse"><circle cx="15" cy="15" r="1" fill="rgba(255,255,255,0.05)"/><circle cx="45" cy="45" r="0.5" fill="rgba(255,255,255,0.03)"/></pattern></defs><rect width="100" height="100" fill="url(%23sidebar-pattern)"/></svg>');
+    pointer-events: none;
+}
+
+.sidebar-header {
+    padding: 30px 25px;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+}
+
+.sidebar-header h3 {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.school-icon {
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: #1e3c72;
+    box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+}
+
+.sidebar-nav {
+    flex: 1;
+    padding: 20px 0;
+    position: relative;
+    z-index: 1;
+}
+
+.nav-item {
+    margin: 0 15px 5px 15px;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 14px 20px;
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-link::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+}
+
+.nav-link:hover::before {
+    left: 100%;
+}
+
+.nav-link:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    transform: translateX(5px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.nav-link.active {
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+    color: #1e3c72;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4);
+}
+
+.nav-link.active:hover {
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+    transform: translateX(5px);
+}
+
+.nav-icon {
+    width: 20px;
+    margin-right: 12px;
+    text-align: center;
+    font-size: 1rem;
+    opacity: 0.9;
+}
+
+.nav-link.active .nav-icon {
+    opacity: 1;
+}
+
+/* Submenu styling */
+.submenu-toggle {
+    cursor: pointer;
+}
+
+.submenu-toggle::after {
+    content: '▼';
+    position: absolute;
+    right: 20px;
+    font-size: 0.7rem;
+    transition: transform 0.3s ease;
+    opacity: 0.7;
+}
+
+.submenu-toggle.collapsed::after {
+    transform: rotate(-90deg);
+}
+
+.submenu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 0 0 12px 12px;
+    margin: 0 15px;
+}
+
+.submenu.show {
+    max-height: 500px;
+}
+
+.submenu-item {
+    padding: 10px 20px 10px 50px;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    display: block;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    margin: 2px 10px;
+}
+
+.submenu-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    transform: translateX(5px);
+}
+
+.submenu-item i {
+    margin-right: 8px;
+    font-size: 0.9rem;
+}
+
+.no-classes {
+    padding: 15px 20px 15px 50px;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
+/* User profile section */
+.sidebar-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 20px 25px;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* User dropdown styling */
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.user-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.user-info {
+    flex: 1;
+}
+
+.user-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: white;
+    margin-bottom: 2px;
+}
+
+.user-role {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.user-menu-toggle {
+    width: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 10px 15px;
+    color: white;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.user-menu-toggle:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.user-menu-toggle.collapsed {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.user-dropdown {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+.user-dropdown.show {
+    max-height: 300px;
+}
+
+.user-dropdown-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    border-radius: 6px;
+    margin: 2px;
+}
+
+.user-dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    transform: translateX(5px);
+}
+
+.user-dropdown-item i {
+    width: 16px;
+    margin-right: 10px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 8px 0;
+}
+
+/* Special styling for Change Password link */
+.user-dropdown-item:has(.fa-key) {
+    background: linear-gradient(135deg, rgba(40, 167, 69, 0.2) 0%, rgba(34, 197, 94, 0.2) 100%);
+    border-left: 3px solid #28a745;
+    font-weight: 600;
+}
+
+.user-dropdown-item:has(.fa-key):hover {
+    background: linear-gradient(135deg, rgba(40, 167, 69, 0.3) 0%, rgba(34, 197, 94, 0.3) 100%);
+    color: #90EE90;
+}

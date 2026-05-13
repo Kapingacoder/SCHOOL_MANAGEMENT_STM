@@ -1,0 +1,67 @@
+{% extends 'primary_dashboard/base.html' %}
+
+{% block title %}Select Marks Entry Criteria{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Select Criteria for Marks Entry</h2>
+    <form method="post" id="marks-select-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Proceed</button>
+    </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const classSelect = document.getElementById('id_class_name');
+    const subjectSelect = document.getElementById('id_subject');
+
+    // Set initial state for subject select
+    subjectSelect.innerHTML = '<option value="">Select a class first</option>';
+    subjectSelect.disabled = true;
+
+    classSelect.addEventListener('change', function() {
+        const classId = this.value;
+        subjectSelect.innerHTML = '<option value="">Loading subjects...</option>';
+        subjectSelect.disabled = true;
+
+        if (classId) {
+            fetch(`/primary_dashboard/ajax/get-subjects/?class_id=${classId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    subjectSelect.innerHTML = '<option value="">Select Subject</option>';
+                    if (data.length > 0) {
+                        data.forEach(subject => {
+                            const option = document.createElement('option');
+                            option.value = subject.id;
+                            option.textContent = subject.name;
+                            subjectSelect.appendChild(option);
+                        });
+                        subjectSelect.disabled = false;
+                    } else {
+                        subjectSelect.innerHTML = '<option value="">No subjects found for this class</option>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching subjects:', error);
+                    subjectSelect.innerHTML = '<option value="">Could not load subjects</option>';
+                });
+        } else {
+            subjectSelect.innerHTML = '<option value="">Select a class first</option>';
+            subjectSelect.disabled = true;
+        }
+    });
+
+    // Trigger change event if a class is already selected on page load
+    if (classSelect.value) {
+        classSelect.dispatchEvent(new Event('change'));
+    }
+});
+</script>
+{% endblock %}

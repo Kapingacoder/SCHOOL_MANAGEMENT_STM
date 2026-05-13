@@ -1,0 +1,77 @@
+{% extends 'secondary_dashboard/base.html' %}
+{% block back_to_menu %}
+<a href="{% url 'secondary_dashboard:dashboard' %}" class="btn btn-outline-primary mb-3">
+    <i class="fas fa-arrow-left"></i> Back to Menu
+</a>
+{% endblock %}
+{% block content %}
+<div class="container py-4">
+    <h2 class="mb-4 text-center">School Timetables</h2>
+    <div class="row g-4">
+        {% for f in forms_data %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card shadow timetable-card mb-4">
+                <div class="card-header bg-dark-green text-white text-center">
+                    <h5 class="mb-0">Form {{ f.num }}</h5>
+                </div>
+                <div class="card-body timetable-section">
+                    {% if f.timetables.exists %}
+                        {% for tt in f.timetables %}
+                        <div class="mb-3">
+                            <strong>{{ tt.title|default:'Timetable' }}</strong><br>
+                            <small class="text-muted">Uploaded {{ tt.uploaded_at|date:'M d, Y' }} by {{ tt.uploaded_by.get_full_name }}</small>
+                            <div class="mt-2">
+                                <a href="{{ tt.file.url }}" target="_blank" class="btn btn-sm btn-outline-primary">View</a>
+                                <a href="{{ tt.file.url }}" download class="btn btn-sm btn-outline-success">Download</a>
+                                {% if is_admin or tt.uploaded_by == request.user %}
+                                <a href="#" class="btn btn-sm btn-outline-danger">Delete</a>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="timetable-placeholder text-center text-muted">
+                            <i class="fas fa-table fa-2x mb-2"></i>
+                            <p>No timetable uploaded yet for Form {{ f.num }}.</p>
+                            {% if is_admin %}
+                            <form method="post" enctype="multipart/form-data" class="d-inline-block">
+                                {% csrf_token %}
+                                <input type="hidden" name="form" value="{{ f.num }}">
+                                <input type="file" name="file" class="form-control form-control-sm mb-2" required>
+                                <button type="submit" class="btn btn-outline-primary btn-sm">Upload Timetable</button>
+                            </form>
+                            {% endif %}
+                            {% if teacher_forms and f.num in teacher_forms %}
+                                <div class="mt-2"><span class="badge bg-success">Available for your class</span></div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<style>
+.timetable-card {
+    border-radius: 1rem;
+    border: none;
+    transition: box-shadow 0.2s;
+}
+.timetable-card:hover {
+    box-shadow: 0 0 0 0.2rem #1a472a33;
+}
+.timetable-section {
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.timetable-placeholder {
+    opacity: 0.7;
+}
+.bg-dark-green {
+    background-color: #1a472a !important;
+}
+</style>
+{% endblock %}

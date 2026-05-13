@@ -1,0 +1,42 @@
+
+/* Students card (Blue) */
+.bg-dark-green {
+    background-color: #007bff !important; /* Bootstrap Primary */
+}
+.bg-dark-green .card-title,
+.bg-dark-green h2,
+.bg-dark-green .card-text,
+.bg-dark-green i {
+    color: #FFFFFF !important;
+}
+
+/* Parents card (Green) */
+.bg-slate-grey {
+    background-color: #28a745 !important; /* Bootstrap Success */
+}
+.bg-slate-grey .card-title,
+.bg-slate-grey h2,
+.bg-slate-grey .card-text,
+.bg-slate-grey i {
+    color: #FFFFFF !important;
+}
+
+/* Teachers card (Yellow) */
+.bg-charcoal {
+    background-color: #ffc107 !important; /* Bootstrap Warning */
+}
+.bg-charcoal .card-title,
+.bg-charcoal h2,
+.bg-charcoal .card-text,
+.bg-charcoal i {
+    color: #000000 !important;
+}
+.card-header.bg-dark-green {
+    border-bottom: 2px solid #0d3019;
+}
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(26, 71, 42, 0.05);
+}
+.table-striped tbody tr:hover {
+    background-color: rgba(26, 71, 42, 0.1);
+}

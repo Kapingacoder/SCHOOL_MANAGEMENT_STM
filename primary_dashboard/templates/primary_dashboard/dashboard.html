@@ -1,0 +1,136 @@
+{% extends "primary_dashboard/base.html" %}
+{% load static %}
+
+{% block title %}Primary Dashboard{% endblock %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'primary_dashboard/dashboard.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h2 class="display-4" data-en="Welcome to Primary School Dashboard" data-sw="Karibu kwenye Dashibodi ya Msingi" style="color: hwb(322 5% 11% / 0.952);">Welcome to Primary School Dashboard</h2>
+            <p class="lead text-muted" data-en="Manage primary school activities efficiently" data-sw="Simamia shughuli za shule ya msingi kwa ufanisi" style="color: #800077;">Manage school activities efficiently</p>
+        </div>
+    </div>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        <div class="col">
+    <a href="{% url 'primary_dashboard:home' %}" class="card text-center text-decoration-none bg-dark-green dashboard-card" onclick="this.querySelector('.dashboard-icon').style.color='green'; this.querySelector('.dashboard-text').style.color='green';">
+    <div class="card-body">
+        <i class="fas fa-home fa-3x mb-3 dashboard-icon" style="color: orange;"></i>
+        <h5 class="card-title dashboard-text">Home</h5>
+    </div>
+</a>
+        </div>
+        <div class="col">
+<a href="{% url 'primary_dashboard:events_list' %}" class="card text-center text-decoration-none bg-slate-grey dashboard-card" onclick="this.querySelector('.dashboard-icon').style.color='green'; this.querySelector('.dashboard-text').style.color='green';">
+    <div class="card-body">
+        <i class="fas fa-calendar-alt fa-3x mb-3 dashboard-icon" style="color: orange;"></i>
+        <h5 class="card-title dashboard-text">Events</h5>
+    </div>
+</a>
+        </div>
+        <div class="col">
+<a href="{% url 'primary_dashboard:classes' %}" class="card text-center text-decoration-none bg-charcoal dashboard-card" onclick="this.querySelector('.dashboard-icon').style.color='green'; this.querySelector('.dashboard-text').style.color='green';">
+    <div class="card-body">
+        <i class="fab fa-wpforms fa-3x mb-3 dashboard-icon" style="color: orange;"></i>
+        <h5 class="card-title dashboard-text">Classes</h5>
+    </div>
+</a>
+        </div>
+        <div class="col">
+<a href="{% url 'primary_dashboard:marks' %}" class="card text-center text-decoration-none bg-dark-green dashboard-card" onclick="this.querySelector('.dashboard-icon').style.color='green'; this.querySelector('.dashboard-text').style.color='green';">
+    <div class="card-body">
+        <i class="fas fa-marker fa-3x mb-3 dashboard-icon" style="color: orange;"></i>
+        <h5 class="card-title dashboard-text">Marks</h5>
+    </div>
+</a>
+        </div>
+        <div class="col">
+<a href="{% url 'primary_dashboard:settings' %}" class="card text-center text-decoration-none bg-slate-grey dashboard-card" onclick="this.querySelector('.dashboard-icon').style.color='green'; this.querySelector('.dashboard-text').style.color='green';">
+    <div class="card-body">
+        <i class="fas fa-cog fa-3x mb-3 dashboard-icon" style="color: orange;"></i>
+        <h5 class="card-title dashboard-text">Settings</h5>
+    </div>
+</a>
+        </div>
+        <div class="col">
+<a href="{% url 'primary_dashboard:report_select' %}" class="card text-center text-decoration-none bg-charcoal dashboard-card" onclick="this.querySelector('.dashboard-icon').style.color='green'; this.querySelector('.dashboard-text').style.color='green';">
+    <div class="card-body">
+        <i class="fas fa-file-alt fa-3x mb-3 dashboard-icon" style="color: orange;"></i>
+        <h5 class="card-title dashboard-text">Report</h5>
+    </div>
+</a>
+        </div>
+        <div class="col">
+<a href="{% url 'primary_dashboard:messages' %}" class="card text-center text-decoration-none bg-slate-grey dashboard-card" onclick="this.querySelector('.dashboard-icon').style.color='green'; this.querySelector('.dashboard-text').style.color='green';">
+    <div class="card-body">
+        <i class="fas fa-envelope fa-3x mb-3 dashboard-icon" style="color: orange;"></i>
+        <h5 class="card-title dashboard-text">Messages</h5>
+    </div>
+</a>
+        </div>
+        <div class="col">
+<a href="{% url 'primary_dashboard:teachers' %}" class="card text-center text-decoration-none bg-charcoal dashboard-card" onclick="this.querySelector('.dashboard-icon').style.color='green'; this.querySelector('.dashboard-text').style.color='green';">
+    <div class="card-body">
+        <i class="fas fa-chalkboard-teacher fa-3x mb-3 dashboard-icon" style="color: orange;"></i>
+        <h5 class="card-title dashboard-text">Teachers</h5>
+    </div>
+</a>
+        </div>
+        <div class="col">
+<a href="{% url 'primary_dashboard:timetable' %}" class="card text-center text-decoration-none bg-dark-green dashboard-card" onclick="this.querySelector('.dashboard-icon').style.color='green'; this.querySelector('.dashboard-text').style.color='green';">
+    <div class="card-body">
+        <i class="fas fa-table fa-3x mb-3 dashboard-icon" style="color: orange;"></i>
+        <h5 class="card-title dashboard-text">Time Table</h5>
+    </div>
+</a>
+        </div>
+        <div class="col">
+<a href="{% url 'primary_dashboard:past_papers' %}" class="card text-center text-decoration-none bg-slate-grey dashboard-card" onclick="this.querySelector('.dashboard-icon').style.color='green'; this.querySelector('.dashboard-text').style.color='green';">
+    <div class="card-body">
+        <i class="fas fa-file-archive fa-3x mb-3 dashboard-icon" style="color: orange;"></i>
+        <h5 class="card-title dashboard-text">Past Papers</h5>
+    </div>
+</a>
+        </div>
+        <div class="col">
+<a href="{% url 'primary_dashboard:documents' %}" class="card text-center text-decoration-none bg-dark-green dashboard-card" onclick="this.querySelector('.dashboard-icon').style.color='green'; this.querySelector('.dashboard-text').style.color='green';">
+    <div class="card-body">
+        <i class="fas fa-upload fa-3x mb-3 dashboard-icon" style="color: orange;"></i>
+        <h5 class="card-title dashboard-text">Documents</h5>
+    </div>
+</a>
+        </div>
+        <div class="col">
+<a href="{% url 'primary_dashboard:how_to_use' %}" class="card text-center text-decoration-none bg-gradient-info dashboard-card" onclick="this.querySelector('.dashboard-icon').style.color='green'; this.querySelector('.dashboard-text').style.color='green';">
+    <div class="card-body">
+        <i class="fas fa-lightbulb fa-3x mb-3 dashboard-icon text-warning" style="color: orange;"></i>
+        <h5 class="card-title dashboard-text">How to Use</h5>
+    </div>
+</a>
+        </div>
+        <div class="col">
+<a href="{% url 'primary_dashboard:notifications' %}" class="card text-center text-decoration-none bg-dark-green dashboard-card position-relative" onclick="this.querySelector('.dashboard-icon').style.color='green'; this.querySelector('.dashboard-text').style.color='green';">
+    <div class="card-body">
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark notification-badge" style="font-size:1rem;z-index:2;">
+            {{ primary_unread|default:0 }}
+        </span>
+        <i class="fas fa-bell fa-3x mb-3 dashboard-icon" style="color: orange;"></i>
+        <h5 class="card-title dashboard-text">Notifications</h5>
+    </div>
+</a>
+        </div>
+        <div class="col">
+<a href="{% url 'accounts:teacher_logout' %}" class="card text-center text-decoration-none bg-charcoal dashboard-card" onclick="this.querySelector('.dashboard-icon').style.color='green'; this.querySelector('.dashboard-text').style.color='green';">
+    <div class="card-body">
+        <i class="fas fa-sign-out-alt fa-3x mb-3 dashboard-icon text-danger" style="color: orange;"></i>
+        <h5 class="card-title dashboard-text">Logout</h5>
+    </div>
+</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

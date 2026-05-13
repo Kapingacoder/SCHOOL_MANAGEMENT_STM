@@ -1,0 +1,147 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parent Login - School Management System</title>
+    <link rel="stylesheet" href="{% static 'base/parent_login.css' %}">
+</head>
+<body>
+    <div class="home-button">
+        <a href="/" class="btn-home-top">🏠 Home</a>
+    </div>
+
+    <div class="login-container">
+        <div class="logo-section">
+            <h1>School Management System</h1>
+            <p>Parent Portal</p>
+        </div>
+
+        <h2>Parent Login</h2>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-danger">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_username">👤 Username</label>
+                <div class="input-wrapper">
+                    <span class="input-icon">👤</span>
+                    <input type="text" name="username" id="id_username" class="form-control" placeholder="Enter your username" required>
+                </div>
+                <small class="text-muted">Enter the username provided by your child's teacher.</small>
+            </div>
+
+            <div class="form-group">
+                <label for="id_password">🔒 Password</label>
+                <div class="input-wrapper">
+                    <span class="input-icon">🔒</span>
+                    <input type="password" name="password" id="id_password" class="form-control" placeholder="Enter your password" autocomplete="current-password">
+                    <button type="button" class="password-toggle" onclick="togglePassword('id_password', this)">
+                        <span id="eye_id_password">👁️</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="button" class="btn-login" id="toggle-dropdown" style="width:100%;background:linear-gradient(135deg,#e8f6ef 0%,#f4f8fb 100%);color:#046b38;font-weight:700;box-shadow:0 2px 8px rgba(4,107,56,0.09);margin-bottom:10px;">Create/Change Password ▼</button>
+                <div id="dropdown-section" style="display:none;animation:fadeIn 0.4s;">
+                    <label for="id_new_password">🆕 Create New Password</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">🆕</span>
+                        <input type="password" name="new_password" id="id_new_password" class="form-control" placeholder="Create new password (if first time)" autocomplete="new-password">
+                        <button type="button" class="password-toggle" onclick="togglePassword('id_new_password', this)">
+                            <span id="eye_id_new_password">👁️</span>
+                        </button>
+                    </div>
+                    <label for="id_confirm_password" style="margin-top:18px;">✅ Confirm New Password</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">✅</span>
+                        <input type="password" name="confirm_password" id="id_confirm_password" class="form-control" placeholder="Confirm new password" autocomplete="new-password">
+                        <button type="button" class="password-toggle" onclick="togglePassword('id_confirm_password', this)">
+                            <span id="eye_id_confirm_password">👁️</span>
+                        </button>
+                    </div>
+                    <button type="submit" class="btn-login" id="create-btn" style="display:none;margin-top:18px;">🚀 Create Password</button>
+                </div>
+            </div>
+            <button type="submit" class="btn-login" id="login-btn">🚀 Login</button>
+        </form>
+
+        <div class="footer-text">
+            <p>Parents from both Primary and Secondary schools can login here.<br>
+            <a href="{% url 'accounts:password_reset' %}" class="forgot-password-link">Forgot Password?</a></p>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for password toggle and dropdown logic
+        function togglePassword(fieldId, btn) {
+            var input = document.getElementById(fieldId);
+            var eye = btn.querySelector('span');
+            if (input.type === 'password') {
+                input.type = 'text';
+                eye.textContent = '🙈';
+            } else {
+                input.type = 'password';
+                eye.textContent = '👁️';
+            }
+        }
+
+        // Dropdown logic for password creation
+        document.getElementById('toggle-dropdown').addEventListener('click', function() {
+            var dropdown = document.getElementById('dropdown-section');
+            if (dropdown.style.display === 'none' || dropdown.style.display === '') {
+                dropdown.style.display = 'block';
+                this.textContent = 'Hide Password Fields ▲';
+                document.getElementById('login-btn').style.display = 'none';
+            } else {
+                dropdown.style.display = 'none';
+                this.textContent = 'Create/Change Password ▼';
+                document.getElementById('login-btn').style.display = 'block';
+            }
+        });
+
+        // Show Create button only when both password fields are filled
+        function toggleCreateButton() {
+            var newPass = document.getElementById('id_new_password').value;
+            var confirmPass = document.getElementById('id_confirm_password').value;
+            var btn = document.getElementById('create-btn');
+            if (newPass && confirmPass) {
+                btn.style.display = 'block';
+            } else {
+                btn.style.display = 'none';
+            }
+        }
+        document.getElementById('id_new_password').addEventListener('input', toggleCreateButton);
+        document.getElementById('id_confirm_password').addEventListener('input', toggleCreateButton);
+
+        // Add subtle animation on form focus
+        document.querySelectorAll('.form-group input').forEach(input => {
+            input.addEventListener('focus', function() {
+                this.parentElement.parentElement.style.transform = 'scale(1.02)';
+            });
+            input.addEventListener('blur', function() {
+                this.parentElement.parentElement.style.transform = 'scale(1)';
+            });
+        });
+
+        // Smooth scroll for any anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                // Handle contact link - could open modal or redirect
+                alert('Please contact the school administration for password assistance.');
+            });
+        });
+    </script>
+
+</body>
+</html>

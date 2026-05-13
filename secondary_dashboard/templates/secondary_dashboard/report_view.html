@@ -1,0 +1,233 @@
+{% extends 'secondary_dashboard/base.html' %}
+
+{% block content %}
+<div class="container-fluid">
+    <!-- Header Section with Search -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="h3 mb-0">Class Reports - {{ student_class.name }}</h1>
+            <p class="text-muted mb-0">Term: {{ term }} | Year: {{ year }} | Students: {{ total_students_in_class }}</p>
+        </div>
+        <div class="d-flex gap-2">
+            <div class="search-box">
+                <form method="get" class="d-flex">
+                    <input type="hidden" name="term" value="{{ term }}">
+                    <input type="hidden" name="year" value="{{ year }}">
+                    <div class="input-group">
+                        <input type="text" 
+                               class="form-control" 
+                               placeholder="Search students..." 
+                               name="search" 
+                               value="{{ search_query|default:'' }}"
+                               aria-label="Search students">
+                        <button class="btn btn-outline-secondary" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        {% if search_query %}
+                        <a href="?term={{ term }}&year={{ year }}" class="btn btn-outline-danger" title="Clear search">
+                            <i class="fas fa-times"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                </form>
+            </div>
+            <a href="{% url 'secondary_dashboard:export_class_reports_excel' student_class.id %}?term={{ term }}&year={{ year }}&search={{ search_query|urlencode }}" 
+               class="btn btn-success">
+                <i class="fas fa-file-excel me-2"></i>Export
+            </a>
+        </div>
+    </div>
+
+    <!-- Student Reports Accordion -->
+    <div class="accordion" id="reportsAccordion">
+        {% for data in reports_data %}
+        <div class="card mb-3 shadow-sm" id="student-{{ data.student.id }}">
+            <div class="card-header bg-light" id="heading{{ forloop.counter }}">
+                <div class="d-flex justify-content-between align-items-center" 
+                     data-bs-toggle="collapse" 
+                     data-bs-target="#collapse{{ forloop.counter }}" 
+                     aria-expanded="false" 
+                     aria-controls="collapse{{ forloop.counter }}"
+                     style="cursor: pointer;">
+                    <div class="d-flex align-items-center">
+                        <div class="me-3 text-center" style="min-width: 50px;">
+                            <span class="badge bg-primary rounded-pill fs-6">#{{ data.rank }}</span>
+                        </div>
+                        <div>
+                            <h5 class="mb-0">
+                                {{ data.student.get_full_name }}
+                                <small class="text-muted ms-2">({{ data.student.admission_number }})</small>
+                            </h5>
+                            <div class="text-muted small">
+                                <span class="me-3">Avg: <strong>{{ data.average_score|floatformat:2 }}</strong></span>
+                                <span class="me-3">Total: <strong>{{ data.total_score|floatformat:2 }}</strong></span>
+                                <span>Division: <span class="badge bg-info">{{ data.division }}</span></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ms-auto">
+                        <i class="fas fa-chevron-down accordion-arrow"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div id="collapse{{ forloop.counter }}" 
+                 class="collapse" 
+                 aria-labelledby="heading{{ forloop.counter }}" 
+                 data-bs-parent="#reportsAccordion">
+                <div class="card-body">
+                    <form action="{% url 'secondary_dashboard:report_pdf' data.student.id %}" method="get" target="_blank">
+                        <input type="hidden" name="rank" value="{{ data.rank }}">
+                        <input type="hidden" name="total_students" value="{{ total_students_in_class }}">
+                        <input type="hidden" name="class_teacher_comment" value="{{ data.report.class_teacher_comment|default:'' }}">
+                        <input type="hidden" name="principal_comment" value="{{ data.report.principal_comment|default:'' }}">
+
+                        <div class="table-responsive mb-4">
+                            <table class="table table-bordered table-hover">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Subject</th>
+                                        <th>Score</th>
+                                        <th>Grade</th>
+                                        <th>Remark</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for mark in data.marks %}
+                                    <tr>
+                                        <td>{{ mark.subject.name }}</td>
+                                        <td>{{ mark.score }}</td>
+                                        <td>{{ mark.grade.name }}</td>
+                                        <td>{{ mark.grade.remarks }}</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Comments Section -->
+                        <div class="card mb-4">
+                            <div class="card-header bg-light">
+                                <h6 class="mb-0">Comments</h6>
+                            </div>
+                            <div class="card-body">
+                                <form action="{% url 'secondary_dashboard:save_report_comments' data.student.id %}" method="post" class="mb-3">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="class_teacher_comment_{{ data.student.id }}" class="form-label">
+                                                Class Teacher's Comment
+                                            </label>
+                                            <textarea class="form-control" id="class_teacher_comment_{{ data.student.id }}" 
+                                                      name="class_teacher_comment" rows="2">{{ data.report.class_teacher_comment|default:'' }}</textarea>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="principal_comment_{{ data.student.id }}" class="form-label">
+                                                Principal's Comment
+                                            </label>
+                                            <textarea class="form-control" id="principal_comment_{{ data.student.id }}" 
+                                                      name="principal_comment" rows="2">{{ data.report.principal_comment|default:'' }}</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="text-end">
+                                        <button type="submit" class="btn btn-sm btn-primary">
+                                            <i class="fas fa-save me-1"></i> Save Comments
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="#student-{{ data.student.id }}" class="btn btn-sm btn-outline-secondary">
+                                <i class="fas fa-arrow-up me-1"></i> Back to Top
+                            </a>
+                            <div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-download me-1"></i> Download Report
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="alert alert-info">
+            <i class="fas fa-info-circle me-2"></i>
+            {% if search_query %}
+                No students found matching "{{ search_query }}".
+                <a href="?term={{ term }}&year={{ year }}" class="alert-link">Clear search</a>
+            {% else %}
+                No student reports available for the selected term and year.
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="mt-4">
+        <a href="{% url 'secondary_dashboard:report_select' %}" class="btn btn-outline-secondary">
+            <i class="fas fa-arrow-left me-2"></i> Back to Selection
+        </a>
+    </div>
+</div>
+
+<style>
+.accordion-arrow {
+    transition: transform 0.3s ease;
+}
+.accordion-button:not(.collapsed) .accordion-arrow {
+    transform: rotate(180deg);
+}
+.card-header {
+    transition: background-color 0.2s ease;
+}
+.card-header:hover {
+    background-color: #f8f9fa !important;
+}
+.student-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.student-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Auto-expand the first student's report if there's a search query
+    const searchQuery = "{{ search_query }}";
+    if (searchQuery && document.querySelector('.accordion-item')) {
+        const firstAccordion = document.querySelector('.accordion-item .collapse');
+        if (firstAccordion) {
+            new bootstrap.Collapse(firstAccordion, {toggle: true});
+        }
+    }
+
+    // Update URL with student ID when expanding a card for deep linking
+    const accordionButtons = document.querySelectorAll('[data-bs-toggle="collapse"]');
+    accordionButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const target = this.getAttribute('data-bs-target');
+            const studentId = this.closest('.card').id;
+            if (target && !this.classList.contains('collapsed')) {
+                history.pushState(null, '', `#${studentId}`);
+            }
+        });
+    });
+
+    // Check URL hash on page load and expand the corresponding student
+    if (window.location.hash) {
+        const studentCard = document.querySelector(window.location.hash);
+        if (studentCard) {
+            const collapse = studentCard.querySelector('.collapse');
+            if (collapse) {
+                new bootstrap.Collapse(collapse, {toggle: true});
+                studentCard.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    }
+});
+</script>
+{% endblock %}

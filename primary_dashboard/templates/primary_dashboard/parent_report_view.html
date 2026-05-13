@@ -1,0 +1,81 @@
+{% extends "primary_dashboard/base.html" %}
+{% block sidebar %}{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="report-container">
+        <div class="report-header">
+            <h1>Report for {{ student.first_name }} {{ student.last_name }}</h1>
+            <p>{{ term }} - {{ year }}</p>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <p><strong>Position in class:</strong> {{ rank }} out of {{ total_students_in_class }}</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <p><strong>Average Score:</strong> {{ average_score|floatformat:2 }}%</p>
+                {% if division %}
+                <p><strong>Division:</strong> {{ division }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Subject</th>
+                    <th>Score</th>
+                    <th>Grade</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for mark in marks %}
+                <tr>
+                    <td>{{ mark.subject.name }}</td>
+                    <td>{{ mark.score|default:"-" }}</td>
+                    <td>{{ mark.grade.name|default:"-" }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr class="table-secondary">
+                    <th scope="row">Total Score</th>
+                    <td colspan="2" class="text-center"><strong>{{ total_score }}</strong></td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <div class="comment-section">
+            <h5>Class Teacher's Comment</h5>
+            <p>{{ report.class_teacher_comment|default:"No comment." }}</p>
+        </div>
+
+        <div class="comment-section">
+            <h5>Headteacher's Comment</h5>
+            <p>{{ report.headteacher_comment|default:"No comment." }}</p>
+        </div>
+
+        <div class="row text-center mt-5 signature-section">
+            <div class="col-6">
+                {% if report.class_teacher_signature %}
+                    <img src="{{ report.class_teacher_signature.url }}" alt="Class Teacher's Signature">
+                {% endif %}
+                <p class="mt-2">_________________________</p>
+                <p><strong>Class Teacher</strong></p>
+            </div>
+            <div class="col-6">
+                {% if report.headteacher_signature %}
+                    <img src="{{ report.headteacher_signature.url }}" alt="Headteacher's Signature">
+                {% endif %}
+                <p class="mt-2">_________________________</p>
+                <p><strong>Headteacher</strong></p>
+            </div>
+        </div>
+
+        <div class="btn-container">
+            <a href="{% url 'accounts:parent_dashboard' %}" class="btn btn-secondary"><i class="fas fa-arrow-left me-2"></i>Back to Dashboard</a>
+            <a href="{% url 'primary_dashboard:generate_pdf_report' student.id term year %}" class="btn btn-outline-secondary"><i class="fas fa-download me-2"></i>Download PDF</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

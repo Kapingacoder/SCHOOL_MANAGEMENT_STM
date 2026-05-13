@@ -1,0 +1,144 @@
+{% extends 'secondary_dashboard/base.html' %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'secondary_dashboard/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'secondary_dashboard/grid_menu.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="display-4" data-en="Welcome to Secondary School Dashboard" data-sw="Karibu kwenye Dashibodi ya Sekondari">Welcome to Secondary School Dashboard</h1>
+            <p class="lead text-muted" data-en="Manage high school activities efficiently" data-sw="Simamia shughuli za shule ya sekondari kwa ufanisi">Manage school activities efficiently</p>
+        </div>
+    </div>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+        <div class="col">
+<a href="{% url 'secondary_dashboard:home' %}" class="card text-center text-decoration-none bg-dark-green dashboard-card">
+    <div class="card-body">
+        <i class="fas fa-home fa-3x mb-3 dashboard-icon"></i>
+        <h5 class="card-title dashboard-text">Home</h5>
+    </div>
+</a>
+        </div>
+        <div class="col">
+<a href="{% url 'secondary_dashboard:events_list' %}" class="card text-center text-decoration-none bg-slate-grey dashboard-card">
+    <div class="card-body">
+        <i class="fas fa-calendar-alt fa-3x mb-3 dashboard-icon"></i>
+        <h5 class="card-title dashboard-text">Events</h5>
+    </div>
+</a>
+        </div>
+        <div class="col">
+<a href="{% url 'secondary_dashboard:form_list' %}" class="card text-center text-decoration-none bg-charcoal dashboard-card">
+    <div class="card-body">
+        <i class="fab fa-wpforms fa-3x mb-3 dashboard-icon"></i>
+        <h5 class="card-title dashboard-text">Forms</h5>
+    </div>
+</a>
+        </div>
+        <div class="col">
+<a href="{% url 'secondary_dashboard:marks_select' %}" class="card text-center text-decoration-none bg-dark-green dashboard-card">
+    <div class="card-body">
+        <i class="fas fa-marker fa-3x mb-3 dashboard-icon"></i>
+        <h5 class="card-title dashboard-text">Marks</h5>
+    </div>
+</a>
+        </div>
+        <div class="col">
+<a href="{% url 'secondary_dashboard:settings' %}" class="card text-center text-decoration-none bg-slate-grey dashboard-card">
+    <div class="card-body">
+        <i class="fas fa-cog fa-3x mb-3 dashboard-icon"></i>
+        <h5 class="card-title dashboard-text">Settings</h5>
+    </div>
+</a>
+        </div>
+        <div class="col">
+<a href="{% url 'secondary_dashboard:report_select' %}" class="card text-center text-decoration-none bg-charcoal dashboard-card">
+    <div class="card-body">
+        <i class="fas fa-file-alt fa-3x mb-3 dashboard-icon"></i>
+        <h5 class="card-title dashboard-text">Report</h5>
+    </div>
+</a>
+        </div>
+        <div class="col">
+<a href="{% url 'accounts:secondary_dashboard_change_password' %}" class="card text-center text-decoration-none bg-dark-green dashboard-card">
+    <div class="card-body">
+        <i class="fas fa-key fa-3x mb-3 dashboard-icon"></i>
+        <h5 class="card-title dashboard-text">Change Password</h5>
+    </div>
+</a>
+        </div>
+        <div class="col">
+<a href="{% url 'secondary_dashboard:messages' %}" class="card text-center text-decoration-none bg-slate-grey dashboard-card">
+    <div class="card-body">
+        <i class="fas fa-envelope fa-3x mb-3 dashboard-icon"></i>
+        <h5 class="card-title dashboard-text">Messages</h5>
+    </div>
+</a>
+        </div>
+        <div class="col">
+<a href="{% url 'secondary_dashboard:teacher_list' %}" class="card text-center text-decoration-none bg-charcoal dashboard-card">
+    <div class="card-body">
+        <i class="fas fa-chalkboard-teacher fa-3x mb-3 dashboard-icon"></i>
+        <h5 class="card-title dashboard-text">Teachers</h5>
+    </div>
+</a>
+        </div>
+        <div class="col">
+<a href="{% url 'secondary_dashboard:timetable' %}" class="card text-center text-decoration-none bg-dark-green dashboard-card">
+    <div class="card-body">
+        <i class="fas fa-table fa-3x mb-3 dashboard-icon"></i>
+        <h5 class="card-title dashboard-text">Time Table</h5>
+    </div>
+</a>
+        </div>
+        <div class="col">
+<a href="{% url 'secondary_dashboard:past_papers' %}" class="card text-center text-decoration-none bg-slate-grey dashboard-card">
+    <div class="card-body">
+        <i class="fas fa-file-archive fa-3x mb-3 dashboard-icon"></i>
+        <h5 class="card-title dashboard-text">Past Papers</h5>
+    </div>
+</a>
+        </div>
+        <div class="col">
+<a href="{% url 'secondary_dashboard:how_to_use' %}" class="card text-center text-decoration-none bg-gradient-info dashboard-card">
+    <div class="card-body">
+        <i class="fas fa-lightbulb fa-3x mb-3 dashboard-icon text-warning"></i>
+        <h5 class="card-title dashboard-text">How to Use</h5>
+    </div>
+</a>
+        </div>
+        <div class="col">
+<a href="{% url 'secondary_dashboard:notifications' %}" class="card text-center text-decoration-none bg-dark-green dashboard-card position-relative">
+    <div class="card-body">
+        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark notification-badge" style="font-size:1rem;z-index:2;">
+            {{ secondary_unread|default:0 }}
+        </span>
+        <i class="fas fa-bell fa-3x mb-3 dashboard-icon"></i>
+        <h5 class="card-title dashboard-text">Notifications</h5>
+    </div>
+</a>
+        </div>
+        <div class="col">
+<a href="{% url 'secondary_dashboard:documents' %}" class="card text-center text-decoration-none bg-dark-green dashboard-card">
+    <div class="card-body">
+        <i class="fas fa-upload fa-3x mb-3 dashboard-icon"></i>
+        <h5 class="card-title dashboard-text">Documents</h5>
+    </div>
+</a>
+        </div>
+        <div class="col">
+<a href="{% url 'accounts:teacher_login' %}" class="card text-center text-decoration-none bg-charcoal dashboard-card">
+    <div class="card-body">
+        <i class="fas fa-sign-out-alt fa-3x mb-3 dashboard-icon text-danger"></i>
+        <h5 class="card-title dashboard-text">Logout</h5>
+    </div>
+</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

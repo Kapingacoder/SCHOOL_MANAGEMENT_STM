@@ -1,0 +1,543 @@
+{% extends 'base/base.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{% static 'base/parent_dashboard.css' %}?v=1.3">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/tippy.js@6/dist/tippy-bundle.umd.min.js"></script>
+<style>
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+    
+    .dashboard-icon {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        color: #333;
+        transition: transform 0.2s;
+        position: relative;
+    }
+    
+    .dashboard-icon:hover {
+        transform: translateY(-5px);
+    }
+    
+    .icon-wrapper {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background-color: #f0f0f0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+        font-size: 2rem;
+        color: #4a6cf7;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .icon-label {
+        text-align: center;
+        font-size: 1rem;
+        font-weight: 500;
+    }
+    
+    .welcome-section {
+        text-align: center;
+        padding: 2rem 1rem;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        margin: 1rem;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    
+    .welcome-section h1 {
+        font-size: 2rem;
+        color: #333;
+        margin-bottom: 0.5rem;
+    }
+    
+    .welcome-section p {
+        color: #666;
+        font-size: 1.1rem;
+        margin: 0;
+    }
+    
+    .badge {
+        position: absolute;
+        top: -5px;
+        right: 20px;
+        background-color: #dc3545;
+        color: white;
+        border-radius: 50%;
+        padding: 0.25rem 0.5rem;
+        font-size: 0.75rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="parent-dashboard" id="parentDashboard">
+    <div class="welcome-section">
+        <h1>{% trans "Welcome back" %}, {{ user.first_name }}</h1>
+        <p>{% trans "What would you like to do today?" %}</p>
+    </div>
+    
+    <div class="dashboard-grid">
+        <a href="#children" class="dashboard-icon" data-tippy-content="{% trans 'View your children' %}">
+            <div class="icon-wrapper">
+                <i class="fas fa-user-graduate"></i>
+            </div>
+            <span class="icon-label">{% trans "My Children" %}</span>
+        </a>
+        
+        <a href="#reports" class="dashboard-icon" data-tippy-content="{% trans 'View academic reports' %}">
+            <div class="icon-wrapper">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <span class="icon-label">{% trans "Reports" %}</span>
+        </a>
+        
+        <a href="#messages" class="dashboard-icon" data-tippy-content="{% trans 'View messages from teachers' %}">
+            <div class="icon-wrapper">
+                <i class="fas fa-envelope"></i>
+                {% if unread_count > 0 %}
+                <span class="badge">{{ unread_count }}</span>
+                {% endif %}
+            </div>
+            <span class="icon-label">{% trans "Messages" %}</span>
+        </a>
+        
+        <a href="#events" class="dashboard-icon" data-tippy-content="{% trans 'View school events' %}">
+            <div class="icon-wrapper">
+                <i class="fas fa-calendar-alt"></i>
+            </div>
+            <span class="icon-label">{% trans "Events" %}</span>
+        </a>
+        
+        <a href="#documents" class="dashboard-icon" data-tippy-content="{% trans 'View school documents' %}">
+            <div class="icon-wrapper">
+                <i class="fas fa-file-alt"></i>
+            </div>
+            <span class="icon-label">{% trans "Documents" %}</span>
+        </a>
+        
+        <a href="{% url 'accounts:parent_change_password' %}" class="dashboard-icon" data-tippy-content="{% trans 'Change your password' %}">
+            <div class="icon-wrapper">
+                <i class="fas fa-key"></i>
+            </div>
+            <span class="icon-label">{% trans "Settings" %}</span>
+        </a>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize tooltips
+    tippy('[data-tippy-content]');
+    
+    // Handle icon clicks (you can add more specific handlers as needed)
+    document.querySelectorAll('.dashboard-icon').forEach(icon => {
+        icon.addEventListener('click', function(e) {
+            const target = this.getAttribute('href');
+            if (target.startsWith('#')) {
+                e.preventDefault();
+                // Handle navigation to different sections
+                console.log('Navigating to:', target);
+                // You can add more specific navigation logic here
+            }
+        });
+    });
+});
+</script>
+{% endblock %}
+                                <p>
+                                    {% if child_report.child.student_class %}
+                                        {{ child_report.child.student_class }}
+                                    {% else %}
+                                        {% trans "N/A" %}
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="child-results">
+                            <div class="report-preview">
+                                <h4>{% trans "Student Report" %}</h4>
+                                <div class="report-summary">
+                                    <p><strong>Term:</strong> {{ term }} {{ year }}</p>
+                                    {% if child_report.marks %}
+                                        <div class="marks-table">
+                                            <table class="table table-sm">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Subject</th>
+                                                        <th>Score</th>
+                                                        <th>Grade</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {% for mark in child_report.marks %}
+                                                    <tr>
+                                                        <td>{{ mark.subject.name }}</td>
+                                                        <td>{{ mark.score|default:"-" }}</td>
+                                                        <td>{{ mark.grade.name|default:"-" }}</td>
+                                                    </tr>
+                                                    {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        {% if child_report.report %}
+                                        <div class="comments-section">
+                                            {% if child_report.report.class_teacher_comment %}
+                                            <p><strong>Class Teacher:</strong> {{ child_report.report.class_teacher_comment }}</p>
+                                            {% endif %}
+                                            {% if child_report.report.headteacher_comment %}
+                                            <p><strong>Headteacher:</strong> {{ child_report.report.headteacher_comment }}</p>
+                                            {% endif %}
+                                        </div>
+                                        {% endif %}
+                                    {% else %}
+                                        <p>{% trans "No marks available" %}</p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="child-actions">
+                        </div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if not children %}
+        <div class="content-section">
+            <div class="section-content">
+                <div class="empty-state">
+                    <div class="empty-state-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <h3>{% trans "No Children Registered" %}</h3>
+                    <p>{% trans "No children are currently registered under your account." %}</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Primary Children's Charts Section -->
+        {% if children_charts %}
+        <div class="content-section">
+            <h2 class="section-header">
+                <i class="fas fa-chart-bar"></i>{% trans "Primary School Performance Charts" %}
+            </h2>
+            <div class="section-content">
+                <div class="charts-list">
+                    {% for child_chart in children_charts %}
+                        {% if child_chart.school_type == 'primary' %}
+                        <div class="chart-card">
+                            <h3>{{ child_chart.child_name }}</h3>
+                            <canvas id="chart-{{ child_chart.child_id }}" width="400" height="100"></canvas>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Secondary Children's Charts Section -->
+        {% if children_charts %}
+        <div class="content-section">
+            <h2 class="section-header">
+                <i class="fas fa-chart-bar"></i>{% trans "Secondary School Performance Charts" %}
+            </h2>
+            <div class="section-content">
+                <div class="charts-list">
+                    {% for child_chart in children_charts %}
+                        {% if child_chart.school_type == 'secondary' %}
+                        <div class="chart-card">
+                            <h3>{{ child_chart.child_name }}</h3>
+                            <canvas id="chart-{{ child_chart.child_id }}" width="400" height="100"></canvas>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if not children_charts %}
+        <div class="content-section">
+            <div class="section-content">
+                <div class="empty-state">
+                    <div class="empty-state-icon">
+                        <i class="fas fa-chart-bar"></i>
+                    </div>
+                    <h3>{% trans "No Chart Data Available" %}</h3>
+                    <p>{% trans "No performance data is available for your children at this time." %}</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Messages Section -->
+        <div class="content-section">
+            <h2 class="section-header">
+                <i class="fas fa-envelope"></i>{% trans "Messages from Teachers" %}
+            </h2>
+            <div class="section-content">
+                {% if received_messages %}
+                <div class="chat-container" id="chatContainer">
+                    {% for item in received_messages %}
+                        {% with message=item.message school_type=item.school_type %}
+                            <div class="chat-message {% if message.sender.user == user %}outgoing{% else %}incoming{% endif %}">
+                                <div class="message-bubble">
+                                    <div class="message-sender-info">
+                                        <strong>{{ message.sender.first_name }} {{ message.sender.last_name }}</strong>
+                                    </div>
+                                    {% if message.subject %}
+                                    <p class="message-subject"><strong>Subject:</strong> {{ message.subject }}</p>
+                                    {% endif %}
+                                    <p class="message-text">{{ message.message }}</p>
+                                    <div class="message-meta">
+                                        <span class="message-time">{{ message.timestamp|date:"H:i" }}</span>
+                                        <span class="message-date">{{ message.timestamp|date:"d M Y" }}</span>
+                                        {% if message.recipient.user == user %}
+                                            <a href="{% url 'accounts:delete_message' message.id school_type %}" class="delete-message-btn" title="{% trans 'Delete Message' %}"><i class="fas fa-trash"></i></a>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endwith %}
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    <div class="empty-state-icon">
+                        <i class="fas fa-envelope-open"></i>
+                    </div>
+                    <h3>{% trans "No Messages" %}</h3>
+                    <p>{% trans "You have no messages from teachers at this time." %}</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Documents Section -->
+        <div class="content-section">
+            <h2 class="section-header">
+                <i class="fas fa-file-alt"></i>{% trans "Documents" %}
+            </h2>
+            <div class="section-content">
+                {% if documents %}
+                <div class="documents-list">
+                    {% for document in documents %}
+                    <div class="document-card">
+                        <div class="document-info">
+                            <h4>{{ document.title }}</h4>
+                            <p class="document-type">{{ document.get_document_type_display }}</p>
+                            <p class="document-description">{{ document.description|truncatechars:100 }}</p>
+                            <div class="document-meta">
+                                <span class="document-date">{{ document.uploaded_at|date:"d M Y" }}</span>
+                                <span class="document-uploader">by {{ document.uploaded_by.first_name }} {{ document.uploaded_by.last_name }}</span>
+                            </div>
+                        </div>
+                        <div class="document-actions">
+                            <a href="{{ document.file.url }}" target="_blank" class="btn btn-primary" data-tippy-content="{% trans 'View Document' %}">
+                                <i class="fas fa-eye"></i>
+                                {% trans "View" %}
+                            </a>
+                            <a href="{{ document.file.url }}" download class="btn btn-secondary" data-tippy-content="{% trans 'Download Document' %}">
+                                <i class="fas fa-download"></i>
+                                {% trans "Download" %}
+                            </a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    <div class="empty-state-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3>{% trans "No Documents Available" %}</h3>
+                    <p>{% trans "There are no exam documents uploaded at this time." %}</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Events Section -->
+        <div class="content-section">
+            <h2 class="section-header">
+                <i class="fas fa-calendar-alt"></i>{% trans "School Events" %}
+            </h2>
+            <div class="section-content">
+                {% if events %}
+                <div class="events-list">
+                    {% for event in events %}
+                    <div class="event-card">
+                        <div class="event-header">
+                            <h4>{{ event.title }}</h4>
+                            <span class="event-date">{{ event.date|date:"d M Y" }}</span>
+                        </div>
+                        <p class="event-description">{{ event.description }}</p>
+                        <div class="event-details">
+                            <span class="event-time">{{ event.time|time:"H:i" }}</span>
+                            {% if event.location %}
+                            <span class="event-location">{{ event.location }}</span>
+                            {% endif %}
+                            {% if event.event_type %}
+                            <span class="event-type">{{ event.event_type }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    <div class="empty-state-icon">
+                        <i class="fas fa-calendar-times"></i>
+                    </div>
+                    <h3>{% trans "No Events" %}</h3>
+                    <p>{% trans "There are no upcoming events at this time." %}</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Chart Initialization
+    {% for child_chart in children_charts %}
+    {
+        const ctx = document.getElementById('chart-{{ child_chart.child_id }}').getContext('2d');
+        const subjectNames = JSON.parse('{{ child_chart.subject_names|escapejs }}');
+        const subjectScores = JSON.parse('{{ child_chart.subject_scores|escapejs }}');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: subjectNames,
+                datasets: [{
+                    label: 'Scores',
+                    data: subjectScores,
+                    backgroundColor: 'rgba(217, 119, 6, 0.3)',
+                    borderColor: 'rgba(217, 119, 6, 1)',
+                    borderWidth: 1,
+                    barPercentage: 0.3 // Slimmer bars
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                            font: {
+                                size: 10
+                            }
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            font: {
+                                size: 10
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                }
+            }
+        });
+    }
+    {% endfor %}
+
+    // Theme Toggle
+    const themeToggle = document.getElementById('themeToggle');
+    const parentDashboard = document.getElementById('parentDashboard');
+    themeToggle.addEventListener('click', () => {
+        parentDashboard.classList.toggle('dark-mode');
+        const isDark = parentDashboard.classList.contains('dark-mode');
+        themeToggle.querySelector('i').classList.toggle('fa-moon', !isDark);
+        themeToggle.querySelector('i').classList.toggle('fa-sun', isDark);
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+    if (localStorage.getItem('theme') === 'dark') {
+        parentDashboard.classList.add('dark-mode');
+        themeToggle.querySelector('i').classList.replace('fa-moon', 'fa-sun');
+    }
+
+    // Notification Dismiss
+    const notificationPopup = document.getElementById('notificationPopup');
+    const dismissNotification = document.getElementById('dismissNotification');
+    if (notificationPopup) {
+        dismissNotification.addEventListener('click', () => {
+            notificationPopup.style.opacity = '0';
+            setTimeout(() => {
+                notificationPopup.style.display = 'none';
+            }, 300);
+        });
+    }
+
+    // Search Functionality
+    const searchInput = document.getElementById('searchInput');
+    const childrenList = document.getElementById('childrenList');
+    const chatContainer = document.getElementById('chatContainer');
+    searchInput.addEventListener('input', () => {
+        const query = searchInput.value.toLowerCase();
+        if (childrenList) {
+            const childCards = childrenList.querySelectorAll('.child-card');
+            childCards.forEach(card => {
+                const name = card.querySelector('h3').textContent.toLowerCase();
+                card.style.display = name.includes(query) ? '' : 'none';
+            });
+        }
+        if (chatContainer) {
+            const messages = chatContainer.querySelectorAll('.chat-message');
+            messages.forEach(message => {
+                const text = message.querySelector('.message-text').textContent.toLowerCase();
+                const sender = message.querySelector('.message-sender-info strong').textContent.toLowerCase();
+                message.style.display = text.includes(query) || sender.includes(query) ? '' : 'none';
+            });
+        }
+    });
+
+    // Progress Rings
+    const statItems = document.querySelectorAll('.stat-item');
+    statItems.forEach((item, index) => {
+        const number = parseInt(item.querySelector('.stat-number').textContent);
+        const maxValues = [{{ children|length|default:1 }}, {{ unread_count|default:1 }}, {{ children_reports|length|default:1 }}];
+        const percentage = Math.min((number / Math.max(maxValues[index], 1)) * 100, 100);
+        const circle = item.querySelector('.progress-ring-circle');
+        const radius = circle.r.baseVal.value;
+        const circumference = 2 * Math.PI * radius;
+        circle.style.strokeDasharray = `${circumference} ${circumference}`;
+        circle.style.strokeDashoffset = circumference - (percentage / 100) * circumference;
+    });
+
+    // Tooltips
+    tippy('[data-tippy-content]', {
+        theme: 'custom',
+        animation: 'fade',
+        duration: 200
+    });
+});
+</script>
+{% endblock %}
